@@ -40,12 +40,12 @@ namespace Content.Server.Goobstation.Silicons.AI
         {
             base.Initialize();
             SubscribeLocalEvent<AIEyeComponent, PlayerSpawnCompleteEvent>(onPlayerSpawn);
-            SubscribeLocalEvent<AIEyeComponent, AISpokeEvent>(onAISpeak);
+            SubscribeLocalEvent<AIEyeComponent, EntitySpokeEvent>(onAISpeak);
 
         }
 
         
-        private void onAISpeak(EntityUid uid, AIEyeComponent comp, AISpokeEvent ev)
+        private void onAISpeak(EntityUid uid, AIEyeComponent comp, EntitySpokeEvent ev)
         {
           if (comp.CorePrototype != EntityUid.Invalid)
           {

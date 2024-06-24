@@ -184,14 +184,6 @@ public sealed partial class ChatSystem : SharedChatSystem
             return;
         }
 
-        // GoobStation (AI Eye Chat Intercept) - Don't want AI Eyes to show up in chat
-        if (HasComp<AIEyeComponent>(source))
-        {
-            SendAISpeak(source, message, range, nameOverride, hideLog, ignoreActionBlocker);
-            return;
-        }
-        // End of Goobstation (AI Eye Chat Intercept)
-
         if (player != null && !_chatManager.HandleRateLimit(player))
             return;
 
@@ -384,79 +376,7 @@ public sealed partial class ChatSystem : SharedChatSystem
     #endregion
 
     #region Private API
-    // Goobstation (AI Speak) - Don't let the AI eyes speak, they're very persuasive
-    private void SendAISpeak(
-        EntityUid source,
-        string originalMessage,
-        ChatTransmitRange range,
-        string? nameOverride,
-        bool hideLog = false,
-        bool ignoreActionBlocker = false
-        )
-    {
-        if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
-            return;
-
-        var message = TransformSpeech(source, originalMessage);
-
-        if (message.Length == 0)
-            return;
-
-        var speech = GetSpeechVerb(source, message);
-
-        // get the entity's apparent name (if no override provided).
-        string name;
-        if (nameOverride != null)
-        {
-            name = nameOverride;
-        }
-        else
-        {
-            var nameEv = new TransformSpeakerNameEvent(source, Name(source));
-            RaiseLocalEvent(source, nameEv);
-            name = nameEv.Name;
-            // Check for a speech verb override
-            if (nameEv.SpeechVerb != null && _prototypeManager.TryIndex<SpeechVerbPrototype>(nameEv.SpeechVerb, out var proto))
-                speech = proto;
-        }
-
-        name = FormattedMessage.EscapeText(name);
-
-        var wrappedMessage = Loc.GetString(speech.Bold ? "chat-manager-entity-say-bold-wrap-message" : "chat-manager-entity-say-wrap-message",
-            ("entityName", name),
-            ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
-            ("fontType", speech.FontId),
-            ("fontSize", speech.FontSize),
-            ("message", FormattedMessage.EscapeText(message)));
-
-       
-
-        var ev = new AISpokeEvent(source, message, null, null);
-        RaiseLocalEvent(source, ev, true);
-
-        // To avoid logging any messages sent by entities that are not players, like vendors, cloning, etc.
-        // Also doesn't log if hideLog is true.
-        if (!HasComp<ActorComponent>(source) || hideLog)
-            return;
-
-        if (originalMessage == message)
-        {
-            if (name != Name(source))
-                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user} as {name}: {originalMessage}.");
-            else
-                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user}: {originalMessage}.");
-        }
-        else
-        {
-            if (name != Name(source))
-                _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Say from {ToPrettyString(source):user} as {name}, original: {originalMessage}, transformed: {message}.");
-            else
-                _adminLogger.Add(LogType.Chat, LogImpact.Low,
-                    $"Say from {ToPrettyString(source):user}, original: {originalMessage}, transformed: {message}.");
-        }
-    }
-    // End of Goobstation (AI Speak) - Literally the same thing as the one below but it doesnt send the message
+   
     private void SendEntitySpeak(
         EntityUid source,
         string originalMessage,
@@ -501,7 +421,12 @@ public sealed partial class ChatSystem : SharedChatSystem
             ("fontSize", speech.FontSize),
             ("message", FormattedMessage.EscapeText(message)));
 
-        SendInVoiceRange(ChatChannel.Local, message, wrappedMessage, source, range);
+        // Goobstation - Prevents AI Eye's speech from appearing
+        if (!HasComp<AIEyeComponent>(source))
+        {
+            SendInVoiceRange(ChatChannel.Local, message, wrappedMessage, source, range);
+        }
+        // End of Goob changes
 
         var ev = new EntitySpokeEvent(source, message, null, null);
         RaiseLocalEvent(source, ev, true);
@@ -572,29 +497,31 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         var wrappedUnknownMessage = Loc.GetString("chat-manager-entity-whisper-unknown-wrap-message",
             ("message", FormattedMessage.EscapeText(obfuscatedMessage)));
-
-
-        foreach (var (session, data) in GetRecipients(source, WhisperMuffledRange))
+        // Goobstation - Prevents AI Eye's whispers from appearing
+        if (!HasComp<AIEyeComponent>(source)) 
         {
-            EntityUid listener;
+            foreach (var (session, data) in GetRecipients(source, WhisperMuffledRange))
+            {
+                EntityUid listener;
 
-            if (session.AttachedEntity is not { Valid: true } playerEntity)
-                continue;
-            listener = session.AttachedEntity.Value;
+                if (session.AttachedEntity is not { Valid: true } playerEntity)
+                    continue;
+                listener = session.AttachedEntity.Value;
 
-            if (MessageRangeCheck(session, data, range) != MessageRangeCheckResult.Full)
-                continue; // Won't get logged to chat, and ghosts are too far away to see the pop-up, so we just won't send it to them.
+                if (MessageRangeCheck(session, data, range) != MessageRangeCheckResult.Full)
+                    continue; // Won't get logged to chat, and ghosts are too far away to see the pop-up, so we just won't send it to them.
 
-            if (data.Range <= WhisperClearRange)
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, message, wrappedMessage, source, false, session.Channel);
-            //If listener is too far, they only hear fragments of the message
-            else if (_examineSystem.InRangeUnOccluded(source, listener, WhisperMuffledRange))
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedobfuscatedMessage, source, false, session.Channel);
-            //If listener is too far and has no line of sight, they can't identify the whisperer's identity
-            else
-                _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedUnknownMessage, source, false, session.Channel);
+                if (data.Range <= WhisperClearRange)
+                    _chatManager.ChatMessageToOne(ChatChannel.Whisper, message, wrappedMessage, source, false, session.Channel);
+                //If listener is too far, they only hear fragments of the message
+                else if (_examineSystem.InRangeUnOccluded(source, listener, WhisperMuffledRange))
+                    _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedobfuscatedMessage, source, false, session.Channel);
+                //If listener is too far and has no line of sight, they can't identify the whisperer's identity
+                else
+                    _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedUnknownMessage, source, false, session.Channel);
+            }
         }
-
+        // End of Goobstation Changes
         _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
 
         var ev = new EntitySpokeEvent(source, message, channel, obfuscatedMessage);
@@ -644,7 +571,12 @@ public sealed partial class ChatSystem : SharedChatSystem
 
         if (checkEmote)
             TryEmoteChatInput(source, action);
-        SendInVoiceRange(ChatChannel.Emotes, action, wrappedMessage, source, range, author);
+        // Goobstation - Prevents AI Eye's emotes from appearing
+        if (!HasComp<AIEyeComponent>(source))
+        {
+            SendInVoiceRange(ChatChannel.Emotes, action, wrappedMessage, source, range, author);
+        }
+        // End of Goobstation changes
         if (!hideLog)
             if (name != Name(source))
                 _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Emote from {ToPrettyString(source):user} as {name}: {action}");
@@ -1022,29 +954,7 @@ public sealed class EntitySpokeEvent : EntityEventArgs
     }
 }
 
-// Goobstation (AI Spoke Event)
-public sealed class AISpokeEvent : EntityEventArgs
-{
-    public readonly EntityUid Source;
-    public readonly string Message;
-    public readonly string? ObfuscatedMessage; // not null if this was a whisper
 
-    /// <summary>
-    ///     If the entity was trying to speak into a radio, this was the channel they were trying to access. If a radio
-    ///     message gets sent on this channel, this should be set to null to prevent duplicate messages.
-    /// </summary>
-    public RadioChannelPrototype? Channel;
-
-    public AISpokeEvent(EntityUid source, string message, RadioChannelPrototype? channel, string? obfuscatedMessage)
-    {
-        Source = source;
-        Message = message;
-        Channel = channel;
-        ObfuscatedMessage = obfuscatedMessage;
-    }
-}
-
-// End of Goobstation (AI Spoke Event)
 
 /// <summary>
 ///     InGame IC chat is for chat that is specifically ingame (not lobby) but is also in character, i.e. speaking.
