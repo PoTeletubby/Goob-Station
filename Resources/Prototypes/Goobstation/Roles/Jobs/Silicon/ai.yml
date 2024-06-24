@@ -1,0 +1,13 @@
+- type: job
+  id: AI
+  name: job-name-ai
+  description: job-description-ai
+  playTimeTracker: JobAI
+  requirements:
+    - !type:RoleTimeRequirement
+      role: JobBorg
+      time: 36000 #10 hrs
+  canBeAntag: false
+  icon: JobIconBorg
+  supervisors: job-supervisors-laws
+  jobEntity: AiObserver
