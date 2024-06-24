@@ -24,6 +24,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Goobstation\Teleportation\Components\" />
+    <Folder Include="Goobstation\Teleportation\Systems\" />
     <Folder Include="Power\Components\" />
   </ItemGroup>
   <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />

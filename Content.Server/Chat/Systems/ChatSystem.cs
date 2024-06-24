@@ -6,6 +6,7 @@ using Content.Server.Administration.Managers;
 using Content.Server.Chat.Managers;
 using Content.Server.Examine;
 using Content.Server.GameTicking;
+using Content.Server.Players.RateLimiting;
 using Content.Server.Speech.Components;
 using Content.Server.Speech.EntitySystems;
 using Content.Server.Station.Components;
@@ -184,6 +185,7 @@ public sealed partial class ChatSystem : SharedChatSystem
             return;
         }
 
+ if (player != null && _chatManager.HandleRateLimit(player) != RateLimitStatus.Allowed)
         // GoobStation (AI Eye Chat Intercept) - Don't want AI Eyes to show up in chat
         if (HasComp<AIEyeComponent>(source))
         {
@@ -281,7 +283,7 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (!CanSendInGame(message, shell, player))
             return;
 
-        if (player != null && !_chatManager.HandleRateLimit(player))
+        if (player != null && _chatManager.HandleRateLimit(player) != RateLimitStatus.Allowed)
             return;
 
         // It doesn't make any sense for a non-player to send in-game OOC messages, whereas non-players may be sending
