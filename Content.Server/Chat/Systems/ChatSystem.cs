@@ -17,6 +17,7 @@ using Content.Shared.Chat;
 using Content.Shared.Database;
 using Content.Shared.Examine;
 using Content.Shared.Ghost;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Humanoid;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
@@ -182,6 +183,14 @@ public sealed partial class ChatSystem : SharedChatSystem
             TrySendInGameOOCMessage(source, message, InGameOOCChatType.Dead, range == ChatTransmitRange.HideChat, shell, player);
             return;
         }
+
+        // GoobStation (AI Eye Chat Intercept) - Don't want AI Eyes to show up in chat
+        if (HasComp<AIEyeComponent>(source))
+        {
+            SendAISpeak(source, message, range, nameOverride, hideLog, ignoreActionBlocker);
+            return;
+        }
+        // End of Goobstation (AI Eye Chat Intercept)
 
         if (player != null && !_chatManager.HandleRateLimit(player))
             return;
@@ -375,7 +384,79 @@ public sealed partial class ChatSystem : SharedChatSystem
     #endregion
 
     #region Private API
+    // Goobstation (AI Speak) - Don't let the AI eyes speak, they're very persuasive
+    private void SendAISpeak(
+        EntityUid source,
+        string originalMessage,
+        ChatTransmitRange range,
+        string? nameOverride,
+        bool hideLog = false,
+        bool ignoreActionBlocker = false
+        )
+    {
+        if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
+            return;
 
+        var message = TransformSpeech(source, originalMessage);
+
+        if (message.Length == 0)
+            return;
+
+        var speech = GetSpeechVerb(source, message);
+
+        // get the entity's apparent name (if no override provided).
+        string name;
+        if (nameOverride != null)
+        {
+            name = nameOverride;
+        }
+        else
+        {
+            var nameEv = new TransformSpeakerNameEvent(source, Name(source));
+            RaiseLocalEvent(source, nameEv);
+            name = nameEv.Name;
+            // Check for a speech verb override
+            if (nameEv.SpeechVerb != null && _prototypeManager.TryIndex<SpeechVerbPrototype>(nameEv.SpeechVerb, out var proto))
+                speech = proto;
+        }
+
+        name = FormattedMessage.EscapeText(name);
+
+        var wrappedMessage = Loc.GetString(speech.Bold ? "chat-manager-entity-say-bold-wrap-message" : "chat-manager-entity-say-wrap-message",
+            ("entityName", name),
+            ("verb", Loc.GetString(_random.Pick(speech.SpeechVerbStrings))),
+            ("fontType", speech.FontId),
+            ("fontSize", speech.FontSize),
+            ("message", FormattedMessage.EscapeText(message)));
+
+       
+
+        var ev = new AISpokeEvent(source, message, null, null);
+        RaiseLocalEvent(source, ev, true);
+
+        // To avoid logging any messages sent by entities that are not players, like vendors, cloning, etc.
+        // Also doesn't log if hideLog is true.
+        if (!HasComp<ActorComponent>(source) || hideLog)
+            return;
+
+        if (originalMessage == message)
+        {
+            if (name != Name(source))
+                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user} as {name}: {originalMessage}.");
+            else
+                _adminLogger.Add(LogType.Chat, LogImpact.Low, $"Say from {ToPrettyString(source):user}: {originalMessage}.");
+        }
+        else
+        {
+            if (name != Name(source))
+                _adminLogger.Add(LogType.Chat, LogImpact.Low,
+                    $"Say from {ToPrettyString(source):user} as {name}, original: {originalMessage}, transformed: {message}.");
+            else
+                _adminLogger.Add(LogType.Chat, LogImpact.Low,
+                    $"Say from {ToPrettyString(source):user}, original: {originalMessage}, transformed: {message}.");
+        }
+    }
+    // End of Goobstation (AI Speak) - Literally the same thing as the one below but it doesnt send the message
     private void SendEntitySpeak(
         EntityUid source,
         string originalMessage,
@@ -940,6 +1021,30 @@ public sealed class EntitySpokeEvent : EntityEventArgs
         ObfuscatedMessage = obfuscatedMessage;
     }
 }
+
+// Goobstation (AI Spoke Event)
+public sealed class AISpokeEvent : EntityEventArgs
+{
+    public readonly EntityUid Source;
+    public readonly string Message;
+    public readonly string? ObfuscatedMessage; // not null if this was a whisper
+
+    /// <summary>
+    ///     If the entity was trying to speak into a radio, this was the channel they were trying to access. If a radio
+    ///     message gets sent on this channel, this should be set to null to prevent duplicate messages.
+    /// </summary>
+    public RadioChannelPrototype? Channel;
+
+    public AISpokeEvent(EntityUid source, string message, RadioChannelPrototype? channel, string? obfuscatedMessage)
+    {
+        Source = source;
+        Message = message;
+        Channel = channel;
+        ObfuscatedMessage = obfuscatedMessage;
+    }
+}
+
+// End of Goobstation (AI Spoke Event)
 
 /// <summary>
 ///     InGame IC chat is for chat that is specifically ingame (not lobby) but is also in character, i.e. speaking.
