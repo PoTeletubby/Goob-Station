@@ -1,0 +1,20 @@
+{
+    "version": 1,
+    "license": "CC-BY-SA-4.0",
+    "copyright": "placeholder",
+    "size": {
+        "x": 32,
+        "y": 32
+    },
+    "states": [
+        {
+            "name": "empty"
+        },
+        {
+            "name": "blue"
+        },
+        {
+            "name": "thinking"
+        }
+    ]
+}

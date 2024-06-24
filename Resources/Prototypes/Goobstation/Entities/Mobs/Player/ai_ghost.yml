@@ -1,0 +1,75 @@
+- type: entity
+  parent: BaseMob
+  id: AiObserver
+  name: ai eye placeholder
+  description: Beep!
+  noSpawn: true
+  components:
+  - type: CargoSellBlacklist
+  - type: Eye
+    drawFov: false
+  - type: Examiner
+  - type: IntrinsicRadioReceiver
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeCircle
+          radius: 0.35
+        density: 15
+        mask:
+        - GhostImpassable
+  - type: ActiveRadio
+    channels:
+    - Binary
+    - Common
+    - Command
+    - CentCom
+    - Engineering
+    - Medical
+    - Science
+    - Security
+    - Service
+    - Supply
+    skipChecks: true
+  - type: ContentEye
+    maxZoom: 1, 1
+  - type: Tag
+    tags:
+    - BypassInteractionRangeChecks
+  - type: MovementSpeedModifier
+    baseSprintSpeed: 12
+    baseWalkSpeed: 8
+  - type: MovementIgnoreGravity
+  - type: Input
+    context: "ghost"
+    canInteract: true
+  - type: ComplexInteraction
+  - type: Physics
+    bodyType: KinematicController
+    bodyStatus: InAir
+  - type: CanMoveInAir
+    bodyType: Kinematic
+  - type: Sprite
+    overrideContainerOcclusion: true # Ghosts always show up regardless of where they're contained.
+    drawdepth: Ghosts
+    sprite: Mobs/Ghosts/ghost_human.rsi
+    color: "#2ed2fd"
+    layers:
+    - state: animated
+      shader: unshaded
+  - type: Access
+    groups:
+    - AllAccess
+  - type: IgnoreUIRange
+  - type: ShowJobIcons
+  - type: ShowMindShieldIcons
+  - type: ShowCriminalRecordIcons
+  - type: ShowHealthBars
+  - type: AIEye
+    damageContainers:
+    - Inorganic
+    - Silicon
+    - Biological
+  - type: Visibility
+    layer: 3

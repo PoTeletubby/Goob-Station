@@ -1,0 +1,22 @@
+- type: entity
+  parent: BaseStructure
+  id: AICore
+  name: AI core
+  description: The empty core of an AI.
+  components:
+  - type: Anchorable
+  - type: InteractionOutline
+  - type: Sprite
+    sprite: Goobstation/Structures/ai_core.rsi
+    state: empty
+  - type: AICore
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Borg
+  - type: Vocal
+    sounds:
+      Unsexed: UnisexSilicon
+  - type: UnblockableSpeech
+  - type: TypingIndicator
+    proto: robot
+  - type: Appearance
