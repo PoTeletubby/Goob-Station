@@ -74,19 +74,17 @@ namespace Content.Server.Goobstation.Silicons.AI
             var spawned = ev.Mob;
             var mainstation = _station.GetOwningStation(spawned).GetValueOrDefault();
 
-            foreach (var ent in _lookup.GetEntitiesInRange(mainstation, 10000f))
+            var query = EntityQueryEnumerator<AICoreComponent>();
+            while (query.MoveNext(out var ent, out var comp)
             {
-              if (_entity.HasComponent<AICoreComponent>(ent))
+            if (comp.EyePrototype == EntityUid.Invalid)
               {
-                var corecomp = _entity.GetComponent<AICoreComponent>(ent);
-                if (corecomp.EyePrototype == EntityUid.Invalid)
-                {
-                   corecomp.EyePrototype = spawned;
-                   _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = ent;
-                   return;
-                }
-              }
+                compcore.EyePrototype == spawned;
+                _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = ent;
+                return;
+               }
             }
+
           var newcore = _entity.SpawnAtPosition("AICore", Transform(spawned).Coordinates);
          _entity.GetComponent<AICoreComponent>(newcore).EyePrototype = spawned;
          _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = newcore;
