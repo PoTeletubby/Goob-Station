@@ -66,26 +66,25 @@ namespace Content.Server.Goobstation.Silicons.AI
                 ev.Channel = null;
             }
         }
+        
 
         // End of Goobstation (AISpeak)
 
         private void onPlayerSpawn(EntityUid uid, AIEyeComponent comp, PlayerSpawnCompleteEvent ev)
         {
             var spawned = ev.Mob;
-            var mainstation = _station.GetOwningStation(spawned).GetValueOrDefault();
+            var allstations = _station.GetStationsSet();
+            var mainstation = allstations.FirstOrDefault();
 
-            foreach (var ent in _lookup.GetEntitiesInRange(mainstation, 10000f))
+            var query = EntityQueryEnumerator<AICoreComponent>();
+            while (query.MoveNext(out var ent, out var core))
             {
-              if (_entity.HasComponent<AICoreComponent>(ent))
-              {
-                var corecomp = _entity.GetComponent<AICoreComponent>(ent);
-                if (corecomp.EyePrototype == EntityUid.Invalid)
+                if (core.EyePrototype == EntityUid.Invalid)
                 {
-                   corecomp.EyePrototype = spawned;
-                   _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = ent;
-                   return;
+                    core.EyePrototype = spawned;
+                    _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = ent;
+                    return;
                 }
-              }
             }
           var newcore = _entity.SpawnAtPosition("AICore", Transform(spawned).Coordinates);
          _entity.GetComponent<AICoreComponent>(newcore).EyePrototype = spawned;
