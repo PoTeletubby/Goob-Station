@@ -5,6 +5,7 @@ using Content.Server.Radio.Components;
 using Content.Server.VoiceMask;
 using Content.Shared.Chat;
 using Content.Shared.Database;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Radio;
 using Content.Shared.Radio.Components;
 using Content.Shared.Speech;
@@ -60,6 +61,11 @@ public sealed class RadioSystem : EntitySystem
     /// </summary>
     public void SendRadioMessage(EntityUid messageSource, string message, ProtoId<RadioChannelPrototype> channel, EntityUid radioSource, bool escapeMarkup = true)
     {
+
+     // Goobstation - Prevents AI Eyes from talking in other ways such as the intercoms
+        if (HasComp<AIEyeComponent>(messageSource))
+            return;
+
         SendRadioMessage(messageSource, message, _prototype.Index(channel), radioSource, escapeMarkup: escapeMarkup);
     }
 
@@ -70,6 +76,10 @@ public sealed class RadioSystem : EntitySystem
     /// <param name="radioSource">Entity that picked up the message and will send it, e.g. headset</param>
     public void SendRadioMessage(EntityUid messageSource, string message, RadioChannelPrototype channel, EntityUid radioSource, bool escapeMarkup = true)
     {
+
+        // Goobstation - Prevents AI Eyes from talking in other ways such as the intercoms
+        if (HasComp<AIEyeComponent>(messageSource))
+            return;
         // TODO if radios ever garble / modify messages, feedback-prevention needs to be handled better than this.
         if (!_messages.Add(message))
             return;

@@ -278,6 +278,7 @@
         nodeGroupID: HVPower
   - type: ActivatableUI
     singleUser: true
+    allowAI: true # Goobstation - AI Additions
     key: enum.PowerMonitoringConsoleUiKey.Key
   - type: UserInterface
     interfaces:
@@ -319,6 +320,7 @@
       enum.CriminalRecordsConsoleKey.Key:
         type: CriminalRecordsConsoleBoundUserInterface
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.CriminalRecordsConsoleKey.Key
   - type: Sprite
     layers:
@@ -354,6 +356,7 @@
         enum.GeneralStationRecordConsoleKey.Key:
           type: GeneralStationRecordConsoleBoundUserInterface
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.GeneralStationRecordConsoleKey.Key
   - type: PointLight
     radius: 1.5
@@ -388,6 +391,7 @@
   - type: Computer
     board: CrewMonitoringComputerCircuitboard
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.CrewMonitoringUIKey.Key
   - type: UserInterface
     interfaces:
@@ -423,6 +427,7 @@
     - Science
   - type: TechnologyDatabase
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.ResearchConsoleUiKey.Key
   - type: UserInterface
     interfaces:
@@ -471,6 +476,7 @@
     ports:
       - ArtifactAnalyzerSender
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.ArtifactAnalzyerUiKey.Key
   - type: UserInterface
     interfaces:
@@ -587,6 +593,7 @@
   - type: DeviceNetwork
     transmitFrequencyId: ShuttleTimer
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.CommunicationsConsoleUiKey.Key
   - type: UserInterface
     interfaces:
@@ -651,6 +658,7 @@
       state: generic_keys
   - type: SolarControlConsole
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.SolarControlConsoleUiKey.Key
   - type: UserInterface
     interfaces:
@@ -682,6 +690,7 @@
   - type: RadarConsole
   - type: ActivatableUI
     key: enum.RadarConsoleUiKey.Key
+    allowAI: true # - Goobstation - AI Additions
   - type: UserInterface
     interfaces:
         enum.RadarConsoleUiKey.Key:
@@ -749,6 +758,7 @@
     channels:
     - Supply
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.CargoConsoleUiKey.Orders
   - type: UserInterface
     interfaces:
@@ -793,6 +803,7 @@
       state: tech_key
   - type: CargoBountyConsole
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.CargoConsoleUiKey.Bounty
   - type: UserInterface
     interfaces:
@@ -845,6 +856,7 @@
       - CloningPodSender
   - type: ActivatableUI
     key: enum.CloningConsoleUiKey.Key
+    allowAI: true # - Goobstation - AI Additions
   - type: UserInterface
     interfaces:
         enum.CloningConsoleUiKey.Key:
@@ -930,6 +942,7 @@
   - type: DeviceNetworkRequiresPower
   - type: SurveillanceCameraMonitor
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.SurveillanceCameraMonitorUiKey.Key
   - type: ActivatableUIRequiresVision
   - type: Transform
@@ -1035,6 +1048,7 @@
   - type: AccessReader
     access: [[ "Command" ]]
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.NewsWriterUiKey.Key
   - type: ActivatableUIRequiresVision
   - type: Transform
@@ -1071,6 +1085,7 @@
       board: SensorConsoleCircuitboard
     - type: SensorMonitoringConsole
     - type: ActivatableUI
+      allowAI: true # - Goobstation - AI Additions
       key: enum.SensorMonitoringConsoleUiKey.Key
     - type: UserInterface
       interfaces:
@@ -1108,6 +1123,7 @@
     channels:
     - Science
   - type: ActivatableUI
+    allowAI: true # - Goobstation - AI Additions
     key: enum.RoboticsConsoleUiKey.Key
   - type: UserInterface
     interfaces:

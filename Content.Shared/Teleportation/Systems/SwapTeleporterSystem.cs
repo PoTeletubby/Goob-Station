@@ -1,4 +1,5 @@
 using Content.Shared.Examine;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Popups;
@@ -47,6 +48,7 @@ public sealed class SwapTeleporterSystem : EntitySystem
         var (uid, comp) = ent;
         if (args.Target == null)
             return;
+
 
         var target = args.Target.Value;
 
@@ -104,6 +106,10 @@ public sealed class SwapTeleporterSystem : EntitySystem
     private void OnActivateInWorld(Entity<SwapTeleporterComponent> ent, ref ActivateInWorldEvent args)
     {
         if (args.Handled || !args.Complex)
+            return;
+
+        // Goobstation - Prevent AI from interacting with things it shouldn't
+        if (HasComp<AIEyeComponent>(args.User))
             return;
 
         var (uid, comp) = ent;

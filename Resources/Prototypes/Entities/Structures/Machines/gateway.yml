@@ -50,6 +50,7 @@
   components:
   - type: ActivatableUI
     key: enum.GatewayUiKey.Key
+    AllowAI: true
   - type: UserInterface
     interfaces:
       enum.GatewayUiKey.Key:

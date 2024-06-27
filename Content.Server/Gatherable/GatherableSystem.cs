@@ -1,5 +1,6 @@
 using Content.Server.Destructible;
 using Content.Server.Gatherable.Components;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Tag;
 using Content.Shared.Weapons.Melee.Events;
@@ -44,6 +45,10 @@ public sealed partial class GatherableSystem : EntitySystem
             return;
 
         if (_whitelistSystem.IsWhitelistFailOrNull(gatherable.Comp.ToolWhitelist, args.User))
+            return;
+
+        // Goobstation - Prevent AI from interacting with things it shouldn't
+        if (HasComp<AIEyeComponent>(args.User))
             return;
 
         Gather(gatherable, args.User);

@@ -91,6 +91,7 @@
   - type: ActivatableUI
     inHandsOnly: false
     singleUser: true
+    allowAI: true # - Goobstation - AI Additions
     key: enum.ApcUiKey.Key
   - type: Construction
     graph: APC

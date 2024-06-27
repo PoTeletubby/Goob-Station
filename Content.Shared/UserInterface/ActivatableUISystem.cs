@@ -1,6 +1,7 @@
 using Content.Shared.ActionBlocker;
 using Content.Shared.Administration.Managers;
 using Content.Shared.Ghost;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Hands;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
@@ -101,6 +102,8 @@ public sealed partial class ActivatableUISystem : EntitySystem
         if (_whitelistSystem.IsWhitelistFail(component.RequiredItems, args.Using ?? default))
             return false;
 
+
+
         if (component.RequireHands)
         {
             if (args.Hands == null)
@@ -144,6 +147,13 @@ public sealed partial class ActivatableUISystem : EntitySystem
         if (component.RequiredItems != null)
             return;
 
+        // Goobstation - AI interaction, easiest solution I could think of
+        if (HasComp<AIEyeComponent>(args.User) && component.AllowAI)
+        {
+          args.Handled = AIInteractUI(args.User, uid, component);
+          return;
+        }
+        
         args.Handled = InteractUI(args.User, uid, component);
     }
 
@@ -205,6 +215,60 @@ public sealed partial class ActivatableUISystem : EntitySystem
                     return false;
             }
         }
+
+        if (aui.AdminOnly && !_adminManager.IsAdmin(user))
+            return false;
+
+        if (aui.SingleUser && aui.CurrentSingleUser != null && user != aui.CurrentSingleUser)
+        {
+            var message = Loc.GetString("machine-already-in-use", ("machine", uiEntity));
+            _popupSystem.PopupClient(message, uiEntity, user);
+
+            if (_uiSystem.IsUiOpen(uiEntity, aui.Key))
+                return true;
+
+            Log.Error($"Activatable UI has user without being opened? Entity: {ToPrettyString(uiEntity)}. User: {aui.CurrentSingleUser}, Key: {aui.Key}");
+        }
+
+        // If we've gotten this far, fire a cancellable event that indicates someone is about to activate this.
+        // This is so that stuff can require further conditions (like power).
+        var oae = new ActivatableUIOpenAttemptEvent(user);
+        var uae = new UserOpenActivatableUIAttemptEvent(user, uiEntity);
+        RaiseLocalEvent(user, uae);
+        RaiseLocalEvent(uiEntity, oae);
+        if (oae.Cancelled || uae.Cancelled)
+            return false;
+
+        // Give the UI an opportunity to prepare itself if it needs to do anything
+        // before opening
+        var bae = new BeforeActivatableUIOpenEvent(user);
+        RaiseLocalEvent(uiEntity, bae);
+
+        SetCurrentSingleUser(uiEntity, user, aui);
+        _uiSystem.OpenUi(uiEntity, aui.Key, user);
+
+        //Let the component know a user opened it so it can do whatever it needs to do
+        var aae = new AfterActivatableUIOpenEvent(user, user);
+        RaiseLocalEvent(uiEntity, aae);
+
+        return true;
+    }
+
+    // Goobstation - AI interaction, easiest solution I could think of
+    private bool AIInteractUI(EntityUid user, EntityUid uiEntity, ActivatableUIComponent aui)
+    {
+        Log.Error($"Using AI Interact!!");
+        if (aui.Key == null || !_uiSystem.HasUi(uiEntity, aui.Key))
+            return false;
+
+        if (_uiSystem.IsUiOpen(uiEntity, aui.Key, user))
+        {
+            _uiSystem.CloseUi(uiEntity, aui.Key, user);
+            return true;
+        }
+
+        if (!aui.AllowAI && HasComp<AIEyeComponent>(user))
+            return false;
 
         if (aui.AdminOnly && !_adminManager.IsAdmin(user))
             return false;

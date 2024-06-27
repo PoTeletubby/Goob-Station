@@ -7,6 +7,7 @@ using Content.Shared.PowerCell.Components;
 using Content.Shared.Radio.EntitySystems;
 using Content.Shared.Radio.Components;
 using Content.Shared.DeviceNetwork.Systems;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 
 namespace Content.Server.Radio.EntitySystems;
 
@@ -61,6 +62,10 @@ public sealed class JammerSystem : SharedJammerSystem
     private void OnActivate(Entity<RadioJammerComponent> ent, ref ActivateInWorldEvent args)
     {
         if (args.Handled || !args.Complex)
+            return;
+
+        // Goobstation - Prevent AI from interacting with things it shouldn't
+        if (HasComp<AIEyeComponent>(args.User))
             return;
 
         var activated = !HasComp<ActiveRadioJammerComponent>(ent) &&

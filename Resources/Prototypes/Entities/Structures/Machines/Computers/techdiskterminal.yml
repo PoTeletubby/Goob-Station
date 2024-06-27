@@ -16,6 +16,7 @@
   - type: ResearchClient
   - type: ActivatableUI
     key: enum.DiskConsoleUiKey.Key
+    allowAI: true # - Goobstation - AI Additions
   - type: ActivatableUIRequiresPower
   - type: UserInterface
     interfaces:

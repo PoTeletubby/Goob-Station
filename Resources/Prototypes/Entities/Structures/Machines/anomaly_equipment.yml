@@ -294,6 +294,7 @@
         acts: ["Breakage"]
   - type: ActivatableUI
     key: enum.AnomalyGeneratorUiKey.Key
+    AllowAI: true
   - type: ActivatableUIRequiresAccess
   - type: ActivatableUIRequiresPower
   - type: UserInterface

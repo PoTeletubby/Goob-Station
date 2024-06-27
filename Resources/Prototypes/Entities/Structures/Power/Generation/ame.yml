@@ -63,6 +63,7 @@
     maxIntensity: 60
   - type: ActivatableUI
     key: enum.AmeControllerUiKey.Key
+    allowAI: true # - Goobstation - AI Additions
   - type: UserInterface
     interfaces:
       enum.AmeControllerUiKey.Key:

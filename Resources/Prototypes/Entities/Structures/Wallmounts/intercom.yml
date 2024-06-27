@@ -61,6 +61,7 @@
   - type: ActivatableUIRequiresPower
   - type: ActivatableUI
     key: enum.IntercomUiKey.Key
+    allowAI: true # - Goobstation - AI Additions
   - type: UserInterface
     interfaces:
       enum.IntercomUiKey.Key:

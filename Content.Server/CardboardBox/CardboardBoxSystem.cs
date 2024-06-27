@@ -4,6 +4,7 @@ using Content.Shared.Access.Components;
 using Content.Shared.CardboardBox;
 using Content.Shared.CardboardBox.Components;
 using Content.Shared.Damage;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Movement.Components;
 using Content.Shared.Movement.Systems;
@@ -45,6 +46,10 @@ public sealed class CardboardBoxSystem : SharedCardboardBoxSystem
     private void OnInteracted(EntityUid uid, CardboardBoxComponent component, ActivateInWorldEvent args)
     {
         if (args.Handled)
+            return;
+
+        // Goobstation - Prevent AI from interacting with things it shouldn't
+        if (HasComp<AIEyeComponent>(args.User))
             return;
 
         if (!TryComp<EntityStorageComponent>(uid, out var box))

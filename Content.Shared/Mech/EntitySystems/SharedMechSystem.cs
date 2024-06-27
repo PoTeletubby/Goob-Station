@@ -6,6 +6,7 @@ using Content.Shared.Destructible;
 using Content.Shared.DoAfter;
 using Content.Shared.DragDrop;
 using Content.Shared.FixedPoint;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Components;
 using Content.Shared.Interaction.Events;
@@ -430,6 +431,10 @@ public abstract class SharedMechSystem : EntitySystem
     private void OnDragDrop(EntityUid uid, MechComponent component, ref DragDropTargetEvent args)
     {
         if (args.Handled)
+            return;
+
+        // Goobstation - Prevent AI from interacting with things it shouldn't
+        if (HasComp<AIEyeComponent>(args.User))
             return;
 
         args.Handled = true;

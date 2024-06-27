@@ -207,6 +207,7 @@
           type: GasThermomachineBoundUserInterface
     - type: ActivatableUI
       inHandsOnly: false
+      allowAI: true # - Goobstation - AI Additions
       key: enum.ThermomachineUiKey.Key
     - type: WiresPanel
     - type: WiresVisuals

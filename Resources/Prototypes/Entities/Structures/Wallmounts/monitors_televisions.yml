@@ -107,6 +107,7 @@
   - type: SurveillanceCameraMonitor
   - type: ActivatableUI
     key: enum.SurveillanceCameraMonitorUiKey.Key
+    allowAI: true # - Goobstation - AI Additions
   - type: ActivatableUIRequiresPower
   - type: UserInterface
     interfaces:
@@ -166,6 +167,7 @@
   - type: SurveillanceCameraMonitor
   - type: ActivatableUI
     key: enum.SurveillanceCameraMonitorUiKey.Key
+    allowAI: true # - Goobstation - AI Additions
   - type: ActivatableUIRequiresPower
   - type: UserInterface
     interfaces:

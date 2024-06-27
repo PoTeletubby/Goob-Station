@@ -148,6 +148,7 @@
         type: SpaceHeaterBoundUserInterface
   - type: ActivatableUI
     inHandsOnly: false
+    allowAI: true # - Goobstation - AI Additions
     key: enum.SpaceHeaterUiKey.Key
   - type: SpaceHeater
   - type: GasThermoMachine

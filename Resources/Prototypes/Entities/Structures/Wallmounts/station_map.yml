@@ -68,6 +68,7 @@
     - type: ActivatableUIRequiresPower
     - type: ActivatableUI
       key: enum.StationMapUiKey.Key
+      allowAI: true # - Goobstation - AI Additions
     - type: Destructible
       thresholds:
         - trigger:

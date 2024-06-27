@@ -1,6 +1,7 @@
 using Content.Shared.Burial;
 using Content.Shared.Burial.Components;
 using Content.Shared.DoAfter;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Movement.Events;
 using Content.Shared.Placeable;
@@ -84,6 +85,10 @@ public sealed class BurialSystem : EntitySystem
     private void OnActivate(EntityUid uid, GraveComponent component, ActivateInWorldEvent args)
     {
         if (args.Handled || !args.Complex)
+            return;
+
+        // Goobstation - Prevent AI from interacting with things it shouldn't
+        if (HasComp<AIEyeComponent>(args.User))
             return;
 
         _popupSystem.PopupClient(Loc.GetString("grave-digging-requires-tool", ("grave", args.Target)), uid, args.User);

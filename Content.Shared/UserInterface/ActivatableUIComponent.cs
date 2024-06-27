@@ -60,6 +60,15 @@ namespace Content.Shared.UserInterface
         public bool BlockSpectators;
 
         /// <summary>
+        ///     Whether players in the AI role should be allowed to view this UI.
+        /// </summary>
+        /// Goobstation - To prevent AI from accessing non-electronic objects
+        [ViewVariables(VVAccess.ReadWrite)]
+        [DataField]
+        public bool AllowAI;
+        /// End of Goobstation changes
+
+        /// <summary>
         ///     Whether the item must be in the user's currently selected/active hand.
         ///     This is ignored unless <see cref="InHandsOnly"/> is true.
         /// </summary>
