@@ -12,12 +12,14 @@ using Content.Server.Radio.Components;
 using Content.Server.Radio.EntitySystems;
 using Content.Server.RoundEnd;
 using Content.Server.Shuttles.Systems;
+using Content.Server.Sprite;
 using Content.Server.Station.Systems;
 using Content.Shared.Chat;
 using Content.Shared.Chat.TypingIndicator;
 using Content.Shared.Emoting;
 using Content.Shared.Goobstation.Silicons.AI;
 using Content.Shared.Goobstation.Silicons.AI.Components;
+using Content.Shared.NPC.Events;
 using Robust.Server.GameObjects;
 using Robust.Shared.Network;
 using System.Diagnostics;
@@ -34,14 +36,19 @@ namespace Content.Server.Goobstation.Silicons.AI
         [Dependency] private readonly StationSystem _station = default!;
         [Dependency] private readonly ChatSystem _chat = default!;
         [Dependency] private readonly RadioSystem _radio = default!;
-        
+        [Dependency] private readonly MetaDataSystem _metaData = default!;
+        [Dependency] private readonly AppearanceSystem _appearance = default!;
+        [Dependency] private readonly TransformSystem _transform = default!;
+
+        List<string> cores = new List<string> {"AICore", "AlienAICore", "AngelAICore" , "ClownAICore", "DatabaseAICore", "GentooAICore", "GlitchmanAICore" ,
+        "GoonAICore", "HadesAICore", "HalAICore", "HouseAICore", "InvertedAICore", "MonochromeAICore", "MuricaAICore", "RedAICore", "ThinkingAICore", "WeirdAICore" };
+        static Random rand = new Random();
 
         public override void Initialize()
         {
             base.Initialize();
             SubscribeLocalEvent<AIEyeComponent, PlayerSpawnCompleteEvent>(onPlayerSpawn);
             SubscribeLocalEvent<AIEyeComponent, EntitySpokeEvent>(onAISpeak);
-
         }
 
         
@@ -58,7 +65,6 @@ namespace Content.Server.Goobstation.Silicons.AI
              if (ev.ObfuscatedMessage != null)
                 {
                  _chat.TrySendInGameICMessage(comp.CorePrototype, ev.Message, InGameICChatType.Whisper, false);
-                    //ev.
                     ev.Channel = null;
                     return;
                 }
@@ -66,15 +72,11 @@ namespace Content.Server.Goobstation.Silicons.AI
                 ev.Channel = null;
             }
         }
-        
 
-        // End of Goobstation (AISpeak)
 
         private void onPlayerSpawn(EntityUid uid, AIEyeComponent comp, PlayerSpawnCompleteEvent ev)
         {
             var spawned = ev.Mob;
-            var allstations = _station.GetStationsSet();
-            var mainstation = allstations.FirstOrDefault();
 
             var query = EntityQueryEnumerator<AICoreComponent>();
             while (query.MoveNext(out var ent, out var core))
@@ -83,12 +85,19 @@ namespace Content.Server.Goobstation.Silicons.AI
                 {
                     core.EyePrototype = spawned;
                     _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = ent;
+                    _metaData.SetEntityDescription(ent, "An AI core currently housing a Nanotrasen brand AI.");
+                    _appearance.SetData(ent, AICoreVisuals.Status, AICoreStatus.Active);
+                    _transform.SetCoordinates(spawned, Transform(ent).Coordinates);
                     return;
                 }
             }
-          var newcore = _entity.SpawnAtPosition("AICore", Transform(spawned).Coordinates);
-         _entity.GetComponent<AICoreComponent>(newcore).EyePrototype = spawned;
-         _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = newcore;
+             int rcore = rand.Next(cores.Count);
+             var newcore = _entity.SpawnAtPosition(cores[rcore], Transform(spawned).Coordinates);
+            _entity.GetComponent<AICoreComponent>(newcore).EyePrototype = spawned;
+            _entity.GetComponent<AIEyeComponent>(spawned).CorePrototype = newcore;
+            _metaData.SetEntityDescription(newcore, "An AI core currently housing a Nanotrasen brand AI.");
+            _appearance.SetData(newcore, AICoreVisuals.Status, AICoreStatus.Active);
+            _transform.SetCoordinates(spawned, Transform(newcore).Coordinates);
         }
     }
 }

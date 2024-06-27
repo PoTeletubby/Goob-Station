@@ -2,13 +2,16 @@
   parent: BaseStructure
   id: AICore
   name: AI core
+  suffix: Blue
   description: The empty core of an AI.
   components:
   - type: Anchorable
   - type: InteractionOutline
   - type: Sprite
     sprite: Goobstation/Structures/ai_core.rsi
-    state: empty
+    layers:
+    - state: ai-empty
+      map: ["core"]
   - type: AICore
   - type: Speech
     speechVerb: Robotic
@@ -20,3 +23,237 @@
   - type: TypingIndicator
     proto: robot
   - type: Appearance
+  - type: RandomMetadata
+    nameSegments: [names_ai]
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-blue }
+          Dead: { state: ai-blue_dead }
+          
+- type: entity
+  parent: AICore
+  id: AlienAICore
+  name: AI core
+  suffix: Alien
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-alien }
+          Dead: { state: ai-alien_dead }
+          
+- type: entity
+  parent: AICore
+  id: AngelAICore
+  name: AI core
+  suffix: Angel
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-angel }
+          Dead: { state: ai-angel_dead }
+          
+- type: entity
+  parent: AICore
+  id: ClownAICore
+  name: AI core
+  suffix: Clown
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-clown }
+          Dead: { state: ai-clown_dead }
+
+- type: entity
+  parent: AICore
+  id: DatabaseAICore
+  name: AI core
+  suffix: Database
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-database }
+          Dead: { state: ai-database_dead }
+          
+- type: entity
+  parent: AICore
+  id: GentooAICore
+  name: AI core
+  suffix: Gentoo
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-gentoo }
+          Dead: { state: ai-gentoo_dead } 
+          
+- type: entity
+  parent: AICore
+  id: GlitchmanAICore
+  name: AI core
+  suffix: Glitchman
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-glitchman }
+          Dead: { state: ai-glitchman_dead }
+
+- type: entity
+  parent: AICore
+  id: GoonAICore
+  name: AI core
+  suffix: Goon
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-goon }
+          Dead: { state: ai-goon_dead }           
+          
+- type: entity
+  parent: AICore
+  id: HadesAICore
+  name: AI core
+  suffix: Hades
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-hades }
+          Dead: { state: ai-hades_dead }
+
+- type: entity
+  parent: AICore
+  id: HalAICore
+  name: AI core
+  suffix: Hal9000
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-hal }
+          Dead: { state: ai-fuzzy }
+
+- type: entity
+  parent: AICore
+  id: HouseAICore
+  name: AI core
+  suffix: House
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-house }
+          Dead: { state: ai-house_dead }
+
+- type: entity
+  parent: AICore
+  id: InvertedAICore
+  name: AI core
+  suffix: Inverted
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-inverted }
+          Dead: { state: ai-inverted_dead }
+
+- type: entity
+  parent: AICore
+  id: MonochromeAICore
+  name: AI core
+  suffix: Monochrome
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-monochrome }
+          Dead: { state: ai-monochrome_dead }
+
+- type: entity
+  parent: AICore
+  id: MuricaAICore
+  name: AI core
+  suffix: Murica
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-murica }
+          Dead: { state: ai-murica_dead }
+
+- type: entity
+  parent: AICore
+  id: RedAICore
+  name: AI core
+  suffix: Red
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-red }
+          Dead: { state: ai-red_dead }
+
+- type: entity
+  parent: AICore
+  id: ThinkingAICore
+  name: AI core
+  suffix: Thinking
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-_thinking_ }
+          Dead: { state: ai-_thinking_dead }
+
+- type: entity
+  parent: AICore
+  id: WeirdAICore
+  name: AI core
+  suffix: Weird
+  components:
+  - type: GenericVisualizer
+    visuals:
+      enum.AICoreVisuals.Status:
+        core:
+          Inactive: { state: ai-empty }
+          Active: { state: ai-weird }
+          Dead: { state: ai-weird_dead }           
+         

@@ -8,12 +8,10 @@ namespace Content.Shared.Goobstation.Silicons.AI.Components;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class AICoreComponent : Component
 {
-    [DataField("activated"), ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
-    public bool Activated;
-
-    [DataField("coretype"), ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
-    public string CoreType = "blue";
+    [DataField("active"), ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+    public bool Active;
 
     [DataField("eyeprototype")]
     public EntityUid EyePrototype = EntityUid.Invalid;
+
 }

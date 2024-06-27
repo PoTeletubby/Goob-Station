@@ -1,0 +1,51 @@
+- type: entity
+  parent: BaseItem
+  id: AICard
+  name: Intellicard
+  description: An Intellicard used to store an active AI.
+  components:
+  - type: Sprite
+    sprite: Goobstation/Objects/Devices/intellicard.rsi
+    layers:
+    - state: aicard
+      shader: unshaded
+      map: ["screen"]
+  - type: Intellicard
+  - type: TypingIndicator
+    proto: robot
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Pai
+  - type: MobState
+    allowedStates:
+      - Alive
+  - type: Appearance
+  - type: Item
+    size: Small 
+  - type: GenericVisualizer
+    visuals:
+      enum.IntellicardVisuals.Status:
+        screen:
+          Empty: { state: aicard }
+          Filled: { state: aicard-full }
+          Error: { state: aicard-404 }
+          
+- type: entity
+  parent: AICard
+  id: SyndicateAICard
+  name: Syndicard
+  description: A Syndicate brand Intellicard used to capture one of Nanotrasen's AIs.
+  components:
+  - type: Sprite
+    sprite: Goobstation/Objects/Devices/intellicard.rsi
+    layers:
+    - state: syndicard
+      shader: unshaded
+      map: ["screen"]
+  - type: GenericVisualizer
+    visuals:
+      enum.IntellicardVisuals.Status:
+        screen:
+          Empty: { state: syndicard }
+          Filled: { state: syndicard-full }
+          Error: { state: syndicard-404 }
