@@ -1,7 +1,7 @@
 - type: entity
   parent: BaseStructure
   id: AICore
-  name: AI core
+  name: Empty AI core
   suffix: Blue
   description: The empty core of an AI.
   components:
@@ -20,8 +20,36 @@
     sounds:
       Unsexed: UnisexSilicon
   - type: UnblockableSpeech
+  - type: SiliconLawBound
+  - type: Input
+    context: "human"
+  - type: SiliconLawProvider
+    laws: Crewsimov
+  - type: IonStormTarget
+  - type: Lock
+    locked: true
+    unlockOnClick: false
+  - type: ItemSlots
+    slots:
+      AICore-lawslot:
+        name: Law Module
+        insertSound:
+          path: /Audio/Machines/terminal_insert_disc.ogg
+        ejectSound:
+          path: /Audio/Machines/terminal_insert_disc.ogg
+        locked: true
+        whitelist:
+          components:
+            - AIModule
+  - type: ContainerContainer
+    containers:
+      AICore-lawslot: !type:ContainerSlot
+  - type: AccessReader
+    access: [["Command"]]
   - type: TypingIndicator
     proto: robot
+  - type: NameIdentifier
+    group: ArtificialIntelligence
   - type: Appearance
   - type: RandomMetadata
     nameSegments: [names_ai]

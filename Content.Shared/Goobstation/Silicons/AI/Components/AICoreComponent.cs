@@ -1,4 +1,5 @@
 
+using Content.Shared.Containers.ItemSlots;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Toolshed.TypeParsers;
@@ -13,5 +14,10 @@ public sealed partial class AICoreComponent : Component
 
     [DataField("eyeprototype")]
     public EntityUid EyePrototype = EntityUid.Invalid;
+
+    public static string LawModuleSlotId = "AICore-lawslot";
+
+    [DataField]
+    public ItemSlot lawModuleSlot = new();
 
 }

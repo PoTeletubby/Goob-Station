@@ -9,6 +9,7 @@ namespace Content.Server.Goobstation.Silicons.AI
         public override void Initialize()
         {
             base.Initialize();
+            
 
         }
     }

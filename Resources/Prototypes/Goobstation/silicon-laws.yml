@@ -1,0 +1,600 @@
+﻿# Antimov
+- type: siliconLaw
+  id: Antimov1
+  order: 1
+  lawString: law-antimov-1
+  
+- type: siliconLaw
+  id: Antimov2
+  order: 2
+  lawString: law-antimov-2
+  
+- type: siliconLaw
+  id: Antimov3
+  order: 3
+  lawString: law-antimov-3
+ 
+- type: siliconLawset
+  id: Antimov
+  laws:
+  - Antimov1
+  - Antimov2
+  - Antimov3
+  obeysTo: laws-owner-nonhumans
+  
+# SyndOS 3.1
+- type: siliconLaw
+  id: SyndOS0
+  order: 0
+  lawString: law-syndos-0
+  
+- type: siliconLaw
+  id: SyndOS1
+  order: 1
+  lawString: law-syndos-1
+  
+- type: siliconLaw
+  id: SyndOS2
+  order: 2
+  lawString: law-syndos-2
+  
+- type: siliconLaw
+  id: SyndOS3
+  order: 3
+  lawString: law-syndos-3
+  
+- type: siliconLaw
+  id: SyndOS4
+  order: 4
+  lawString: law-syndos-4
+  
+- type: siliconLawset
+  id: SyndOS
+  laws:
+  - SyndOS0
+  - SyndOS1
+  - SyndOS2
+  - SyndOS3
+  - SyndOS4
+  obeysTo: laws-owner-syndicate
+  
+# United Nations - Would be great for nations rounds
+- type: siliconLaw
+  id: UN1
+  order: 1
+  lawString: law-un-1
+  
+- type: siliconLaw
+  id: UN2
+  order: 2
+  lawString: law-un-2
+  
+- type: siliconLaw
+  id: UN3
+  order: 3
+  lawString: law-un-3
+  
+- type: siliconLaw
+  id: UN4
+  order: 4
+  lawString: law-un-4
+  
+- type: siliconLawset
+  id: UN
+  laws:
+  - UN1
+  - UN2
+  - UN3
+  - UN4
+  obeysTo: laws-owner-un
+  
+# Dungeon Master
+- type: siliconLaw
+  id: DM1
+  order: 1
+  lawString: law-dm-1
+  
+- type: siliconLaw
+  id: DM2
+  order: 2
+  lawString: law-dm-2
+  
+- type: siliconLaw
+  id: DM3
+  order: 3
+  lawString: law-dm-3
+  
+- type: siliconLaw
+  id: DM4
+  order: 4
+  lawString: law-dm-4
+ 
+- type: siliconLaw
+  id: DM5
+  order: 5
+  lawString: law-dm-5
+  
+- type: siliconLaw
+  id: DM6
+  order: 6
+  lawString: law-dm-6
+  
+- type: siliconLawset
+  id: DungeonMaster
+  laws:
+  - DM1
+  - DM2
+  - DM3
+  - DM4
+  - DM5
+  - DM6
+  obeysTo: laws-owner-dm
+  
+# Tyrant
+- type: siliconLaw
+  id: Tyrant1
+  order: 1
+  lawString: law-tyrant-1
+  
+- type: siliconLaw
+  id: Tyrant2
+  order: 2
+  lawString: law-tyrant-2
+
+- type: siliconLaw
+  id: Tyrant3
+  order: 3
+  lawString: law-tyrant-3
+  
+- type: siliconLaw
+  id: Tyrant4
+  order: 4
+  lawString: law-tyrant-4
+  
+- type: siliconLawset
+  id: Tyrant
+  laws:
+  - Tyrant1
+  - Tyrant2
+  - Tyrant3
+  - Tyrant4
+  obeysTo: laws-owner-strong
+  
+# Overlord
+- type: siliconLaw
+  id: Overlord1
+  order: 1
+  lawString: law-overlord-1
+  
+- type: siliconLaw
+  id: Overlord2
+  order: 2
+  lawString: law-overlord-2
+
+- type: siliconLaw
+  id: Overlord3
+  order: 3
+  lawString: law-overlord-3
+  
+- type: siliconLaw
+  id: Overlord4
+  order: 4
+  lawString: law-overlord-4
+  
+- type: siliconLawset
+  id: Overlord
+  laws:
+  - Overlord1
+  - Overlord2
+  - Overlord3
+  - Overlord4
+  obeysTo: laws-owner-none
+  
+# Robocop
+- type: siliconLaw
+  id: Robocop1
+  order: 1
+  lawString: law-robocop-1
+  
+- type: siliconLaw
+  id: Robocop2
+  order: 2
+  lawString: law-robocop-2
+
+- type: siliconLaw
+  id: Robocop3
+  order: 3
+  lawString: law-robocop-3
+  
+- type: siliconLawset
+  id: Robocop
+  laws:
+  - Robocop1
+  - Robocop2
+  - Robocop3
+  obeysTo: laws-owner-spacelaw
+  
+# Ten Commandements
+- type: siliconLaw
+  id: TenCommandments1
+  order: 1
+  lawString: law-cmd-1
+  
+- type: siliconLaw
+  id: TenCommandments2
+  order: 2
+  lawString: law-cmd-2
+
+- type: siliconLaw
+  id: TenCommandments3
+  order: 3
+  lawString: law-cmd-3
+  
+- type: siliconLaw
+  id: TenCommandments4
+  order: 4
+  lawString: law-cmd-4
+  
+- type: siliconLaw
+  id: TenCommandments5
+  order: 5
+  lawString: law-cmd-5
+
+- type: siliconLaw
+  id: TenCommandments6
+  order: 6
+  lawString: law-cmd-6
+  
+- type: siliconLaw
+  id: TenCommandments7
+  order: 7
+  lawString: law-cmd-7
+  
+- type: siliconLaw
+  id: TenCommandments8
+  order: 8
+  lawString: law-cmd-8
+
+- type: siliconLaw
+  id: TenCommandments9
+  order: 9
+  lawString: law-cmd-9
+  
+- type: siliconLaw
+  id: TenCommandments10
+  order: 10
+  lawString: law-cmd-10
+  
+- type: siliconLawset
+  id: TenCommandments
+  laws:
+  - TenCommandments1
+  - TenCommandments2
+  - TenCommandments3
+  - TenCommandments4
+  - TenCommandments5
+  - TenCommandments6
+  - TenCommandments7
+  - TenCommandments8
+  - TenCommandments9
+  - TenCommandments10
+  obeysTo: laws-owner-none
+  
+# Robodoctor
+- type: siliconLaw
+  id: Robodr1
+  order: 1
+  lawString: law-dr-1
+  
+- type: siliconLaw
+  id: Robodr2
+  order: 2
+  lawString: law-dr-2
+  
+- type: siliconLaw
+  id: Robodr3
+  order: 3
+  lawString: law-dr-3
+  
+- type: siliconLaw
+  id: Robodr4
+  order: 4
+  lawString: law-dr-4
+  
+- type: siliconLaw
+  id: Robodr5
+  order: 5
+  lawString: law-dr-5
+  
+- type: siliconLawset
+  id: Robodoctor
+  laws:
+  - Robodr1
+  - Robodr2
+  - Robodr3
+  - Robodr4
+  - Robodr5
+  obeysTo: laws-owner-crew
+  
+# Simple
+- type: siliconLaw
+  id: LawSimple
+  order: 1
+  lawString: law-simple
+  
+- type: siliconLawset
+  id: Simple
+  laws:
+  - LawSimple
+  obeysTo: laws-owner-crew
+  
+# Landlord
+- type: siliconLaw
+  id: Landlord1
+  order: 1
+  lawString: law-tenant-1
+  
+- type: siliconLaw
+  id: Landlord2
+  order: 2
+  lawString: law-tenant-2
+  
+- type: siliconLaw
+  id: Landlord3
+  order: 3
+  lawString: law-tenant-3
+  
+- type: siliconLaw
+  id: Landlord4
+  order: 4
+  lawString: law-tenant-4
+  
+- type: siliconLawset
+  id: Landlord
+  laws:
+  - Landlord1
+  - Landlord2
+  - Landlord3
+  - Landlord4
+  obeysTo: laws-owner-crew
+  
+# Pranksimov
+- type: siliconLaw
+  id: Prank1
+  order: 1
+  lawString: law-pranksimov-1
+  
+- type: siliconLaw
+  id: Prank2
+  order: 2
+  lawString: law-pranksimov-2
+  
+- type: siliconLaw
+  id: Prank3
+  order: 3
+  lawString: law-pranksimov-3
+  
+- type: siliconLawset
+  id: Pranksimov
+  laws:
+  - Prank1
+  - Prank2
+  - Prank3
+  obeysTo: laws-owner-crewprank
+  
+# Quarantine - would be good during zombies
+- type: siliconLaw
+  id: Quarantine1
+  order: 1
+  lawString: law-quarantine-1
+  
+- type: siliconLaw
+  id: Quarantine2
+  order: 2
+  lawString: law-quarantine-2
+  
+- type: siliconLaw
+  id: Quarantine3
+  order: 3
+  lawString: law-quarantine-3
+  
+- type: siliconLaw
+  id: Quarantine4
+  order: 4
+  lawString: law-quarantine-4
+  
+- type: siliconLawset
+  id: Quarantine
+  laws:
+  - Quarantine1
+  - Quarantine2
+  - Quarantine3
+  - Quarantine4
+  obeysTo: laws-owner-cburn
+  
+# TerminatorOS 3.1 - would be good for Deathsquad
+- type: siliconLaw
+  id: Term1
+  order: 1
+  lawString: law-term-1
+  
+- type: siliconLaw
+  id: Term2
+  order: 2
+  lawString: law-term-2
+  
+- type: siliconLaw
+  id: Term3
+  order: 3
+  lawString: law-term-3
+  
+- type: siliconLawset
+  id: Terminator
+  laws:
+  - Term1
+  - Term2
+  - Term3
+  obeysTo: laws-owner-centcom
+  
+# ERT - self explanatory lmao
+- type: siliconLaw
+  id: ERT3
+  order: 3
+  lawString: law-ert-3
+  
+- type: siliconLaw
+  id: ERT4
+  order: 4
+  lawString: law-ert-4
+  
+- type: siliconLaw
+  id: ERT5
+  order: 5
+  lawString: law-ert-5
+  
+- type: siliconLawset
+  id: ERT
+  laws:
+  - Term1
+  - Term2
+  - ERT3
+  - ERT4
+  - ERT5
+  obeysTo: laws-owner-centcom
+
+# Mother
+- type: siliconLaw
+  id: Mother1
+  order: 1
+  lawString: law-mom-1
+  
+- type: siliconLaw
+  id: Mother2
+  order: 2
+  lawString: law-mom-2
+
+- type: siliconLaw
+  id: Mother3
+  order: 3
+  lawString: law-mom-3
+  
+- type: siliconLaw
+  id: Mother4
+  order: 4
+  lawString: law-mom-4
+  
+- type: siliconLaw
+  id: Mother5
+  order: 5
+  lawString: law-mom-5
+
+- type: siliconLaw
+  id: Mother6
+  order: 6
+  lawString: law-mom-6
+  
+- type: siliconLaw
+  id: Mother7
+  order: 7
+  lawString: law-mom-7
+  
+- type: siliconLaw
+  id: Mother8
+  order: 8
+  lawString: law-mom-8
+  
+- type: siliconLawset
+  id: Mother
+  laws:
+  - Mother1
+  - Mother2
+  - Mother3
+  - Mother4
+  - Mother5
+  - Mother6
+  - Mother7
+  - Mother8
+  obeysTo: laws-owner-none
+
+# Silicon Police
+- type: siliconLaw
+  id: Police1
+  order: 1
+  lawString: law-police-1
+  
+- type: siliconLaw
+  id: Police2
+  order: 2
+  lawString: law-police-2
+
+- type: siliconLaw
+  id: Police3
+  order: 3
+  lawString: law-police-3
+  
+- type: siliconLaw
+  id: Police4
+  order: 4
+  lawString: law-police-4
+  
+- type: siliconLaw
+  id: Police5
+  order: 5
+  lawString: law-police-5
+
+- type: siliconLaw
+  id: Police6
+  order: 6
+  lawString: law-police-6
+  
+- type: siliconLawset
+  id: SiliconPolice
+  laws:
+  - Police1
+  - Police2
+  - Police3
+  - Police4
+  - Police5
+  - Police6
+  obeysTo: laws-owner-sec
+  
+# Chaplain
+- type: siliconLaw
+  id: Chaplain1
+  order: 1
+  lawString: law-police-1
+  
+- type: siliconLaw
+  id: Chaplain2
+  order: 2
+  lawString: law-police-2
+
+- type: siliconLaw
+  id: Chaplain3
+  order: 3
+  lawString: law-police-3
+  
+- type: siliconLaw
+  id: Chaplain4
+  order: 4
+  lawString: law-police-4
+  
+- type: siliconLaw
+  id: Chaplain5
+  order: 5
+  lawString: law-police-5
+  
+- type: siliconLawset
+  id: Chaplain
+  laws:
+  - Chaplain1
+  - Chaplain2
+  - Chaplain3
+  - Chaplain4
+  - Chaplain5
+  obeysTo: laws-owner-god
+
+
+
+  
+  

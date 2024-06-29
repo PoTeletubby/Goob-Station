@@ -1,7 +1,7 @@
 - type: entity
   parent: BaseMob
   id: AiObserver
-  name: ai eye placeholder
+  name: AI eye
   description: Beep!
   noSpawn: true
   components:
@@ -9,7 +9,30 @@
   - type: Eye
     drawFov: false
   - type: Examiner
+    locPrefix: silicon
+  - type: UserInterface
+    interfaces:
+      enum.SiliconLawsUiKey.Key:
+        type: SiliconLawBoundUserInterface
   - type: IntrinsicRadioReceiver
+  - type: IntrinsicRadioTransmitter
+    channels:
+    - Binary
+    - Common
+    - Command
+    - CentCom
+    - Engineering
+    - Medical
+    - Science
+    - Security
+    - Service
+    - Supply
+  - type: SiliconLawBound
+  - type: Hands
+    showInHands: false
+    disableExplosionRecursion: true
+  - type: SiliconLawProvider
+    laws: Crewsimov
   - type: Fixtures
     fixtures:
       fix1:
@@ -19,6 +42,7 @@
         density: 15
         mask:
         - GhostImpassable
+  - type: InstantAction
   - type: ActiveRadio
     channels:
     - Binary
@@ -41,10 +65,14 @@
     baseSprintSpeed: 12
     baseWalkSpeed: 8
   - type: MovementIgnoreGravity
+  - type: Speech
+    speechVerb: Robotic
+    speechSounds: Borg
   - type: Input
-    context: "ghost"
+    context: "human"
     canInteract: true
   - type: ComplexInteraction
+  - type: Actions
   - type: Physics
     bodyType: KinematicController
     bodyStatus: InAir
@@ -73,3 +101,14 @@
     - Biological
   - type: Visibility
     layer: 3
+    
+- type: entity
+  id: ActionAIReturnToCore
+  name: Return to Core
+  description: Sends you back to your core's location
+  components:
+  - type: InstantAction
+    itemIconStyle: NoItem
+    icon: Interface/VerbIcons/light.svg.192dpi.png
+    checkCanInteract: false
+    event: !type:ReturnToCoreEvent

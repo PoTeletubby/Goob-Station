@@ -9,4 +9,7 @@ public sealed partial class IntellicardComponent : Component
 {
     [DataField("storedMind"), AutoNetworkedField]
     public EntityUid storedMind = EntityUid.Invalid;
+
+    [DataField("storedName"), ViewVariables(VVAccess.ReadWrite), AutoNetworkedField]
+    public string storedName = "Robor";
 }

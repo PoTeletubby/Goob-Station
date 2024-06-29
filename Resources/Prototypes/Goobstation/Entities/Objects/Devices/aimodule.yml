@@ -1,0 +1,276 @@
+- type: entity
+  parent: BaseItem
+  id: AIModuleBlank
+  name: Blank AI Module
+  description: a blank AI module containing no laws.
+  components:
+  - type: Sprite
+    sprite: Goobstation/Objects/Devices/aimodule.rsi
+    state: module
+  - type: AIModule
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleFreeform
+  name: Freeform AI Module
+  description: an AI module allowing you to add a custom law.
+  components:
+  - type: AIModule
+    lawSector: 15
+    isFreeform: true
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleRemove
+  name: Law Removal Module
+  description: an AI module that removes a chosen law.
+  components:
+  - type: AIModule
+    removeLaw: true
+    lawSector: 2
+
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleReset
+  name: Law Reset Module
+  description: an AI module that removes all laws, excluding core laws.
+  components:
+  - type: AIModule
+    resetLaws: true
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModulePurge
+  name: Law Purge Module
+  description: an AI module that purges all laws, excluding zeroth laws.
+  components:
+  - type: AIModule
+    purgeLaws: true
+    
+    # Lawset Modules
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleCrewsimov
+  name: Crewsimov AI Module
+  description: an AI module containing the Crewsimov lawset.
+  components:
+  - type: AIModule
+    lawset: Crewsimov
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleCorporate
+  name: Corporate AI Module
+  description: an AI module containing the Corporate lawset.
+  components:
+  - type: AIModule
+    lawset: Corporate
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleNTDefault
+  name: NT Default AI Module
+  description: an AI module containing the NT Default lawset.
+  components:
+  - type: AIModule
+    lawset: NTDefault
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleDrone
+  name: Drone AI Module
+  description: an AI module containing the Drone lawset.
+  components:
+  - type: AIModule
+    lawset: Drone
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleAntimov
+  name: Antimov AI Module
+  description: an AI module containing the Antimov lawset.
+  components:
+  - type: AIModule
+    lawset: Antimov
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleSyndOS
+  name: SyndOS 3.1 AI Module
+  description: an AI module containing the SyndOS 3.1 lawset.
+  components:
+  - type: AIModule
+    lawset: SyndOS
+ 
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleUN
+  name: UN AI Module
+  description: an AI module containing the UN lawset.
+  components:
+  - type: AIModule
+    lawset: UN
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleDM
+  name: DM AI Module
+  description: an AI module containing the Dungeon Master lawset.
+  components:
+  - type: AIModule
+    lawset: DungeonMaster
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleTyrant
+  name: Tyrant AI Module
+  description: an AI module containing the Tyrant lawset.
+  components:
+  - type: AIModule
+    lawset: Tyrant
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleOverlord
+  name: Overlord AI Module
+  description: an AI module containing the Overlord lawset.
+  components:
+  - type: AIModule
+    lawset: Overlord
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleRobocop
+  name: Robocop AI Module
+  description: an AI module containing the Robocop lawset.
+  components:
+  - type: AIModule
+    lawset: Robocop
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleCommandments
+  name: Ten Commandments AI Module
+  description: an AI module containing the Ten Commandments lawset.
+  components:
+  - type: AIModule
+    lawset: TenCommandments
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleRobodoctor
+  name: Robodoctor AI Module
+  description: an AI module containing the Robodoctor lawset.
+  components:
+  - type: AIModule
+    lawset: Robodoctor
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleSimple
+  name: Simple AI Module
+  description: an AI module containing the Simple lawset.
+  components:
+  - type: AIModule
+    lawset: Simple
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleLandlord
+  name: Tenant AI Module
+  description: an AI module containing the Tenant lawset.
+  components:
+  - type: AIModule
+    lawset: Landlord
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModulePranksimov
+  name: Pranksimov AI Module
+  description: an AI module containing the Pranksimov lawset.
+  components:
+  - type: AIModule
+    lawset: Pranksimov
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleQuarantine
+  name: Quarantine AI Module
+  suffix: CBURN
+  description: an AI module containing the Quarantine lawset.
+  components:
+  - type: AIModule
+    lawset: Quarantine
+
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleTerminator
+  name: TerminatorOS 3.1 AI Module
+  suffix: Deathsquad
+  description: an AI module containing the TerminatorOS 3.1 lawset.
+  components:
+  - type: AIModule
+    lawset: Terminator
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleERT
+  name: ERT Directive AI Module
+  suffix: ERT
+  description: an AI module containing the ERT Directive lawset.
+  components:
+  - type: AIModule
+    lawset: ERT
+
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleMother
+  name: Mother AI Module
+  description: an AI module containing the Mother lawset.
+  components:
+  - type: AIModule
+    lawset: Mother
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModulePolice
+  name: Silicon Police AI Module
+  description: an AI module containing the Silicon Police lawset.
+  components:
+  - type: AIModule
+    lawset: SiliconPolice
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AIModuleChaplain
+  name: Chaplain AI Module
+  description: an AI module containing the Chaplain lawset.
+  components:
+  - type: AIModule
+    lawset: Chaplain
+    
+    # Hello Agmin
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AdminAIModulePurge
+  name: CC Purge Module
+  suffix: Admin
+  description: a special purge module produced by CC that removes all laws.
+  components:
+  - type: AIModule
+    purgeLaws: true
+    sectorOverride: true
+    
+- type: entity
+  parent: AIModuleBlank
+  id: AdminAIModuleFreeform
+  name: CC Freeform Module
+  suffix: Admin
+  description: a special freeform module produced by CC that can add a law of any sector.
+  components:
+  - type: AIModule
+    isFreeform: true
+    lawSector: 1
+    sectorOverride: true

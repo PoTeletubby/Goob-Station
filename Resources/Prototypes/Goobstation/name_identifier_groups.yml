@@ -1,0 +1,5 @@
+- type: nameIdentifierGroup
+  id: ArtificialIntelligence
+  prefix: AI
+  minValue: 1
+  maxValue: 99
