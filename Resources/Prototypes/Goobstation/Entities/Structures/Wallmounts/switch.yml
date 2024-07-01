@@ -1,0 +1,61 @@
+- type: entity
+  id: AITurretModeSwitch
+  name: ai turret mode switch
+  description: It's a switch that toggles the mode of the AI room turrets.
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wallmount
+  components:
+  - type: WallMount
+    arc: 360
+  - type: Clickable
+  - type: AccessReader
+    breakOnEmag: false
+    access: [["Command"]]
+  - type: InteractionOutline
+  - type: Physics
+    canCollide: false
+  - type: Sprite
+    drawdepth: SmallObjects
+    sprite: Structures/Wallmounts/switch.rsi
+    state: on
+  - type: AITurretModeSwitch
+  - type: UseDelay
+    delay: 0.5
+  - type: Rotatable
+  - type: Fixtures
+  - type: Tag
+    tags:
+    - Structure
+    
+- type: entity
+  id: AITurretStatusSwitch
+  name: ai turret status switch
+  description: It's a switch that toggles the power status of the AI room turrets.
+  placement:
+    mode: SnapgridCenter
+    snap:
+    - Wallmount
+  components:
+  - type: WallMount
+    arc: 360
+  - type: Clickable
+  - type: AccessReader
+    breakOnEmag: false
+    access: [["Command"]]
+  - type: InteractionOutline
+  - type: Physics
+    canCollide: false
+  - type: Sprite
+    drawdepth: SmallObjects
+    sprite: Structures/Wallmounts/switch.rsi
+    state: on
+  - type: AITurretStatusSwitch
+  - type: UseDelay
+    delay: 0.5
+  - type: Rotatable
+  - type: Fixtures
+  - type: Tag
+    tags:
+    - Structure

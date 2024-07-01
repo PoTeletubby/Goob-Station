@@ -18,6 +18,7 @@
   components:
     - type: Clickable
     - type: InteractionOutline
+    - type: AITurret
     - type: Actions
     - type: Fixtures
       fixtures:
@@ -70,11 +71,11 @@
                   min: 3
                   max: 5
     - type: Gun
-      fireRate: 6
+      fireRate: 0.5
       selectedMode: FullAuto
       availableModes:
         - FullAuto
-      soundGunshot: /Audio/Weapons/Guns/Gunshots/gun_sentry.ogg
+      soundGunshot: /Audio/Weapons/Guns/Gunshots/taser.ogg
     # TODO: Power ammo provider?
     - type: Battery
       maxCharge: 1000
@@ -83,12 +84,16 @@
       autoRecharge: true
       autoRechargeRate: 30
     - type: ProjectileBatteryAmmoProvider
-      proto: BulletDisablerNoDmg
+      proto: BulletTaser
       fireCost: 5
+    - type: BatteryWeaponFireModes
       fireModes:
-      - proto: BulletDisabler
+      #- proto: BulletDisablerNoDmg
+       # fireCost: 5
+      - proto: BulletTaser
+        fireCost: 5
+      - proto: CartridgeCaselessRifle
         fireCost: 10
-      - proto: BaseBullet
     - type: HTN
       rootTask:
         task: AITurretCompound
@@ -107,4 +112,4 @@
       context: "human"
     - type: NpcFactionMember
       factions:
-        - SimpleHostile
+        - AITurret

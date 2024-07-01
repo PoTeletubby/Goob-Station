@@ -1,0 +1,12 @@
+- type: npcFaction
+  id: AITurret
+  hostile:
+    - NanoTrasen
+    - Syndicate
+    - Xeno
+    - PetsNT
+    - Zombie
+    - Revolutionary
+    - Passive
+    - SimpleHostile
+    - SimpleNeutral

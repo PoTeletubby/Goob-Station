@@ -1,0 +1,9 @@
+- type: sourcePort
+  id: Stun
+  name: AI Turret Stun
+  description: Placeholder
+  
+- type: sourcePort
+  id: Kill
+  name: AI Turret Kill
+  description: Placeholder

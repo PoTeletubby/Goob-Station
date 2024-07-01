@@ -53,7 +53,10 @@ namespace Content.Shared.Goobstation.Silicons.AI
                     var mindComp = _entityManager.GetComponent<MindContainerComponent>(core.EyePrototype);
                     comp.storedMind = core.EyePrototype;
                     core.EyePrototype = EntityUid.Invalid;
-                    _mind.TransferTo(mindComp.Mind.GetValueOrDefault(), ev.Used);
+                    if (mindComp.HasMind)
+                    {
+                       _mind.TransferTo(mindComp.Mind.GetValueOrDefault(), ev.Used);
+                    }
                     _appearance.SetData(target, AICoreVisuals.Status, AICoreStatus.Inactive);
                     _appearance.SetData(ev.Used, IntellicardVisuals.Status, IntellicardStatus.Filled);
                     comp.storedName = MetaData(target).EntityName;
@@ -82,7 +85,10 @@ namespace Content.Shared.Goobstation.Silicons.AI
                     //core.EyePrototype = newbody;
                     _metaData.SetEntityName(target, comp.storedName);
                     comp.storedName = "";
-                    _mind.TransferTo(mindComp.Mind.GetValueOrDefault(), core.EyePrototype);
+                    if (mindComp.HasMind)
+                    {
+                        _mind.TransferTo(mindComp.Mind.GetValueOrDefault(), core.EyePrototype);
+                    }
                     _appearance.SetData(ev.Used, IntellicardVisuals.Status, IntellicardStatus.Empty);
                     _appearance.SetData(target, AICoreVisuals.Status, AICoreStatus.Active);
                     var cardName = _entityManager.GetComponent<MetaDataComponent>(ev.Used).EntityPrototype!.Name;
