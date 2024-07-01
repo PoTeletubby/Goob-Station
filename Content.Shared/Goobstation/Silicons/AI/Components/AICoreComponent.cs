@@ -20,4 +20,8 @@ public sealed partial class AICoreComponent : Component
     [DataField]
     public ItemSlot lawModuleSlot = new();
 
+
 }
+
+[ByRefEvent]
+public record struct AILawsUpdatedEvent;

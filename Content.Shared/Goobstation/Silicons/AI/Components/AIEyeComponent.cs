@@ -25,3 +25,4 @@ public sealed partial class AIEyeComponent : Component
 }
 
 public sealed partial class ReturnToCoreEvent : InstantActionEvent { }
+public sealed partial class LeaveShellEvent : InstantActionEvent { }

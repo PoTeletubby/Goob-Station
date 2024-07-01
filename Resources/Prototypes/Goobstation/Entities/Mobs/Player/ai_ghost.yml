@@ -112,3 +112,14 @@
     icon: Interface/VerbIcons/light.svg.192dpi.png
     checkCanInteract: false
     event: !type:ReturnToCoreEvent
+    
+- type: entity
+  id: ActionAILeaveShell
+  name: Leave Shell
+  description: Leave your AI shell to inhabit your core again
+  components:
+  - type: InstantAction
+    icon: Interface/VerbIcons/light.svg.192dpi.png
+    checkCanInteract: false
+    event: !type:LeaveShellEvent
+    

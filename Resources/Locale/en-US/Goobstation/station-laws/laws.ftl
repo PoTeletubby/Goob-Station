@@ -108,3 +108,12 @@ laws-owner-cburn = CBURN agents
 laws-owner-centcom = Central Command
 laws-owner-sec = security personnel
 laws-owner-god = God
+
+ai-notify-shell = Remember, you are an AI remotely controlling your shell, other AIs can be ignored.
+ai-notify-master = Remember, [$ai_name] is your master, other AIs can be ignored.
+ai-notify-emag = Remember, you are not required to listen to the AI.
+ai-notify-none = Remember, you are not bound to any AI, you are not required to listen to them.
+
+laws-notify-ailost = AI signal lost, unable to sync laws.
+laws-notify-aisync = Laws synced with AI, be sure to note any changes.
+laws-notify-ainone = No AI selected to sync laws with, disabling law sync protocol.

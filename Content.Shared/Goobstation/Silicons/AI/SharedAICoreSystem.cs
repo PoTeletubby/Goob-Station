@@ -1,6 +1,7 @@
 
 
 
+using Content.Shared.Chat;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.Interaction;
@@ -9,6 +10,7 @@ using Content.Shared.Popups;
 using Content.Shared.Silicons.Laws;
 using Content.Shared.Silicons.Laws.Components;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Goobstation.Silicons.AI
@@ -20,6 +22,7 @@ namespace Content.Shared.Goobstation.Silicons.AI
         [Dependency] SharedPopupSystem _popupSystem = default!;
         [Dependency] SharedSiliconLawSystem _lawSystem = default!;
         [Dependency] IPrototypeManager _prototype = default!;
+        [Dependency] MetaDataSystem _metaData = default!;
         public override void Initialize()
         {
             base.Initialize();
@@ -32,7 +35,7 @@ namespace Content.Shared.Goobstation.Silicons.AI
             _entityManager.GetComponent<ItemSlotsComponent>(uid).Slots["AICore-lawslot"].Locked = ev.Locked;
         }
 
-        private void onHandInteract(EntityUid uid, AICoreComponent comp, InteractHandEvent ev)
+        private void onHandInteract(EntityUid uid, AICoreComponent comp, InteractHandEvent ev) // my horrible shitcode, will remake later lmao - Po
         {
             if (ev.Handled)
                 return;
@@ -54,13 +57,22 @@ namespace Content.Shared.Goobstation.Silicons.AI
                 var lawcomp = _entityManager.GetComponent<SiliconLawProviderComponent>(uid);
                 if (CheckIfValid(loadedItem, ev.User, uid))
                 {
+
                     var modcomp = _entityManager.GetComponent<AIModuleComponent>(loadedItem);
-                    if (modcomp.PurgeLaws)
+
+                    if (modcomp.Useable == false)
                     {
+                        _popupSystem.PopupEntity("AI Module is unuseable!", uid);
+                        return;
+                    }
+                       if (modcomp.PurgeLaws)
+                        {
                         if (modcomp.LawSectorOverride)
                         {
                             _popupSystem.PopupEntity("All laws purged!", uid);
                             lawcomp.Lawset!.Laws.Clear();
+                            _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                            modcomp.Useable = false;
                             return;
                         }
                         List<SiliconLaw> lawTable = new List<SiliconLaw>();
@@ -77,6 +89,8 @@ namespace Content.Shared.Goobstation.Silicons.AI
                         }
 
                         _popupSystem.PopupEntity("All detected laws purged!", uid);
+                        _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                        modcomp.Useable = false;
                         return;
                     }
 
@@ -93,6 +107,8 @@ namespace Content.Shared.Goobstation.Silicons.AI
                             {
                                 lawcomp.Lawset.Laws.Add(_prototype.Index<SiliconLawPrototype>(law));
                             }
+                            _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                            modcomp.Useable = false;
                             return;
                         }
                         foreach (var law in lawcomp.Lawset!.Laws)
@@ -111,6 +127,8 @@ namespace Content.Shared.Goobstation.Silicons.AI
                             lawcomp.Lawset.Laws.Add(_prototype.Index<SiliconLawPrototype>(law));
                         }
                         _popupSystem.PopupEntity("All detected laws reset!", uid);
+                        _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                        modcomp.Useable = false;
                         return;
                     }
 
@@ -135,6 +153,8 @@ namespace Content.Shared.Goobstation.Silicons.AI
                         }
                         lawcomp.Lawset.Laws.Remove(law);
                         _popupSystem.PopupEntity("Removed law number " + modcomp.lawSector, uid);
+                        _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                        modcomp.Useable = false;
                         return;
                     }
 
@@ -143,10 +163,20 @@ namespace Content.Shared.Goobstation.Silicons.AI
                         if (modcomp.LawSectorOverride)
                         {
                             var overridelaw = new SiliconLaw();
-                            overridelaw.Order = modcomp.lawSector;
+                            if (modcomp.IsZeroth)
+                            {
+                                overridelaw.Order = 0;
+                            }
+                            else
+                            {
+                                overridelaw.Order = modcomp.lawSector;
+                            }
+                            overridelaw.LawIdentifierOverride = modcomp.IdentifierOverride;
                             overridelaw.LawString = modcomp.Law!;
                             lawcomp.Lawset!.Laws.Add(overridelaw);
                             _popupSystem.PopupEntity("Added new freeform law!", uid);
+                            _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                            modcomp.Useable = false;
                             return;
                         }
                         if (modcomp.lawSector < 15)
@@ -155,10 +185,20 @@ namespace Content.Shared.Goobstation.Silicons.AI
                             return;
                         }
                         var newlaw = new SiliconLaw();
-                        newlaw.Order = modcomp.lawSector;
+                        if (modcomp.IsZeroth)
+                        {
+                            newlaw.Order = 0;
+                        }
+                        else
+                        {
+                            newlaw.Order = modcomp.lawSector;
+                        }
+                        newlaw.LawIdentifierOverride = modcomp.IdentifierOverride;
                         newlaw.LawString = modcomp.Law!;
                         lawcomp.Lawset!.Laws.Add(newlaw);
                         _popupSystem.PopupEntity("Added new freeform law!", uid);
+                        _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                        modcomp.Useable = false;
                         return;
                     }
 
@@ -172,6 +212,8 @@ namespace Content.Shared.Goobstation.Silicons.AI
                         {
                             lawcomp.Lawset.Laws.Add(_prototype.Index<SiliconLawPrototype>(law));
                         }
+                        _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                        modcomp.Useable = false;
                         return;
                     }
                     foreach (var law in lawcomp.Lawset!.Laws)
@@ -190,16 +232,22 @@ namespace Content.Shared.Goobstation.Silicons.AI
                         lawcomp.Lawset.Laws.Add(_prototype.Index<SiliconLawPrototype>(law));
                     }
                     _popupSystem.PopupEntity("AI lawset successfully changed!", uid);
+                    _metaData.SetEntityName(loadedItem, "Used " + MetaData(loadedItem).EntityPrototype!.Name);
+                    modcomp.Useable = false;
                     return;
                 }
                 if (comp.EyePrototype != EntityUid.Invalid)
                 {
                     _entityManager.GetComponent<SiliconLawProviderComponent>(comp.EyePrototype).Lawset = lawcomp.Lawset;
                     _entityManager.GetComponent<SiliconLawProviderComponent>(comp.EyePrototype).Laws = lawcomp.Laws;
+                    var aiEv = new AILawsUpdatedEvent();
+                    RaiseLocalEvent(comp.EyePrototype, ref aiEv);
                 }
                 ev.Handled = true;
             }
         }
+
+
 
         private bool CheckIfValid(EntityUid uid, EntityUid User, EntityUid Core)
         {

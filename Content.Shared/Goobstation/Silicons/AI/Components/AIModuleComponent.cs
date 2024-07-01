@@ -33,9 +33,15 @@ public sealed partial class AIModuleComponent : Component
     [DataField("resetLaws"), ViewVariables(VVAccess.ReadWrite)]
     public bool ResetLaws = false; // Removes all non-core laws
 
-    [DataField("sectorOverride"), ViewVariables(VVAccess.ReadWrite)]
+    [DataField("limitOverride"), ViewVariables(VVAccess.ReadWrite)]
     public bool LawSectorOverride = false; // Bypasses all limits on law sectors
+
+    [DataField("identifierOverride"), ViewVariables(VVAccess.ReadWrite)]
+    public string? IdentifierOverride; // Displays custom string instead of order number
 
     [DataField("lockedModule"), ViewVariables(VVAccess.ReadWrite)]
     public bool LockedModule = false; // If set to true, the module cannot be edited
+
+    [DataField("useable"), ViewVariables(VVAccess.ReadWrite)]
+    public bool Useable = true; // If set to false, the module cannot be uploaded to an AI
 }

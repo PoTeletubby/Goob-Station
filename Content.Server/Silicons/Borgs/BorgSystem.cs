@@ -1,13 +1,22 @@
 using Content.Server.Actions;
 using Content.Server.Administration.Logs;
 using Content.Server.Administration.Managers;
+using Content.Server.Chat.Managers;
+using Content.Server.Database.Migrations.Postgres;
 using Content.Server.DeviceNetwork.Systems;
+using Content.Server.Doors.Systems;
 using Content.Server.Explosion.EntitySystems;
+using Content.Server.Ghost;
 using Content.Server.Hands.Systems;
+using Content.Server.Popups;
+using Content.Server.Power.EntitySystems;
 using Content.Server.PowerCell;
 using Content.Shared.Access.Systems;
 using Content.Shared.Alert;
+using Content.Shared.Chat;
 using Content.Shared.Database;
+using Content.Shared.Doors.Components;
+using Content.Shared.Goobstation.Silicons.AI.Components;
 using Content.Shared.IdentityManagement;
 using Content.Shared.Interaction;
 using Content.Shared.Mind;
@@ -22,6 +31,7 @@ using Content.Shared.Roles;
 using Content.Shared.Silicons.Borgs;
 using Content.Shared.Silicons.Borgs.Components;
 using Content.Shared.Throwing;
+using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
 using Content.Shared.Wires;
 using Robust.Server.GameObjects;
@@ -29,6 +39,7 @@ using Robust.Shared.Containers;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using Robust.Shared.Utility;
 
 namespace Content.Server.Silicons.Borgs;
 
@@ -55,6 +66,12 @@ public sealed partial class BorgSystem : SharedBorgSystem
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    // Goobstation - AI
+    [Dependency] private readonly EntityManager _entityManager = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
+    [Dependency] private readonly DoorSystem _door = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly AirlockSystem _airlock = default!;
 
 
     [ValidatePrototypeId<JobPrototype>]
@@ -76,12 +93,198 @@ public sealed partial class BorgSystem : SharedBorgSystem
 
         SubscribeLocalEvent<BorgBrainComponent, MindAddedMessage>(OnBrainMindAdded);
         SubscribeLocalEvent<BorgBrainComponent, PointAttemptEvent>(OnBrainPointAttempt);
+        // vvv Goobstation AI levents vvv
+        SubscribeLocalEvent<DoorComponent, GetVerbsEvent<Verb>>(AddVerbs);
+        SubscribeLocalEvent<AIShellComponent, ComponentRemove>(onComponentRemove);
 
         InitializeModules();
         InitializeMMI();
         InitializeUI();
         InitializeTransponder();
     }
+
+
+    // Goobstation - for some ungodly reason, these wont work in the SharedAIShellSystem.cs thing, so they go here
+
+
+    private void AIBoltDoor(EntityUid uid, EntityUid target, AIEyeComponent component)
+    {
+        if (!TryComp<DoorComponent>(target, out var doorComp))
+            return;
+
+        if (!this.IsPowered(target, EntityManager))
+        {
+            _popup.PopupEntity(Loc.GetString("door-remote-no-power"), uid, uid);
+            return;
+        }
+
+
+        if (TryComp<DoorBoltComponent>(target, out var boltComp))
+        {
+            if (!boltComp.BoltWireCut)
+            {
+                _door.SetBoltsDown((target, boltComp), !boltComp.BoltsDown, uid);
+                _adminLog.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(uid):player} used AI abilities on {ToPrettyString(target)} to {(boltComp.BoltsDown ? "" : "un")}bolt it");
+            }
+        }
+    }
+
+    private void AIEAccessDoor(EntityUid uid, EntityUid target, AIEyeComponent component)
+    {
+        if (!TryComp<DoorComponent>(target, out var doorComp))
+            return;
+
+
+        if (!this.IsPowered(target, EntityManager))
+        {
+            _popup.PopupEntity(Loc.GetString("door-remote-no-power"), uid, uid);
+            return;
+        }
+
+        bool isAirlock = TryComp<AirlockComponent>(target, out var airlockComp);
+
+        if (airlockComp != null)
+        {
+            _airlock.ToggleEmergencyAccess(target, airlockComp);
+            _adminLog.Add(LogType.Action, LogImpact.Medium,
+                    $"{ToPrettyString(uid):player} used AI abilities on {ToPrettyString(target)} to set emergency access {(airlockComp.EmergencyAccess ? "on" : "off")}");
+        }
+    }
+
+    private void onLeaveShell(EntityUid uid, AIShellComponent comp, LeaveShellEvent ev)
+    {
+        var mindComp = _entityManager.GetComponent<MindContainerComponent>(uid);
+        _mind.TransferTo(mindComp.Mind.GetValueOrDefault(), comp.eyePrototype);
+        comp.Controlled = false;
+        comp.eyePrototype = EntityUid.Invalid;
+    }
+    private void AddVerbs(EntityUid uid, DoorComponent comp, GetVerbsEvent<Verb> ev)
+    {
+        if (!ev.CanInteract || ev.Hands == null)
+            return;
+
+        if (TryComp<AIEyeComponent>(ev.User, out var AIComp))
+        {
+            ev.Verbs.Add(new Verb
+            {
+                Act = () => AIBoltDoor(ev.User, ev.Target, AIComp),
+                Text = "Toggle Door Bolt",
+                Message = "Toggle this door's bolts",
+                Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/settings.svg.192dpi.png")),
+                ConfirmationPopup = false,
+                Priority = 1,
+            });
+
+            ev.Verbs.Add(new Verb
+            {
+                Act = () => AIEAccessDoor(ev.User, ev.Target, AIComp),
+                Text = "Toggle Door E-Access",
+                Message = "Toggle this door's emergency access",
+                Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/settings.svg.192dpi.png")),
+                ConfirmationPopup = false,
+                Priority = 1,
+            });
+
+        }
+
+        if (TryComp<BorgChassisComponent>(ev.User, out var borgComp))
+        {
+            ev.Verbs.Add(new Verb
+            {
+                Act = () => SiliconBoltDoor(ev.User, ev.Target, borgComp),
+                Text = "Toggle Door Bolt",
+                Message = "Toggle this door's bolts",
+                Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/settings.svg.192dpi.png")),
+                ConfirmationPopup = false,
+                Priority = 1,
+            });
+
+            ev.Verbs.Add(new Verb
+            {
+                Act = () => SiliconEAccessDoor(ev.User, ev.Target, borgComp),
+                Text = "Toggle Door E-Access",
+                Message = "Toggle this door's emergency access",
+                Icon = new SpriteSpecifier.Texture(new ResPath("/Textures/Interface/VerbIcons/settings.svg.192dpi.png")),
+                ConfirmationPopup = false,
+                Priority = 1,
+            });
+
+        }
+    }
+
+    private void SiliconBoltDoor(EntityUid uid, EntityUid target, BorgChassisComponent component)
+    {
+        if (!TryComp<DoorComponent>(target, out var doorComp))
+            return;
+
+        if (!component.Activated)
+            return;
+
+        if (!this.IsPowered(target, EntityManager))
+        {
+            _popup.PopupEntity(Loc.GetString("door-remote-no-power"), uid, uid);
+            return;
+        }
+
+
+        if (TryComp<DoorBoltComponent>(target, out var boltComp))
+        {
+            if (!boltComp.BoltWireCut)
+            {
+                _door.SetBoltsDown((target, boltComp), !boltComp.BoltsDown, uid);
+                _adminLog.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(uid):player} used borg abilities on {ToPrettyString(target)} to {(boltComp.BoltsDown ? "" : "un")}bolt it");
+            }
+        }
+    }
+
+    private void SiliconEAccessDoor(EntityUid uid, EntityUid target, BorgChassisComponent component)
+    {
+        if (!TryComp<DoorComponent>(target, out var doorComp))
+            return;
+
+        if (!component.Activated)
+            return;
+
+        if (!this.IsPowered(target, EntityManager))
+        {
+            _popup.PopupEntity(Loc.GetString("door-remote-no-power"), uid, uid);
+            return;
+        }
+
+        bool isAirlock = TryComp<AirlockComponent>(target, out var airlockComp);
+
+        if (airlockComp != null)
+         {
+            _airlock.ToggleEmergencyAccess(target, airlockComp);
+            _adminLog.Add(LogType.Action, LogImpact.Medium,
+                    $"{ToPrettyString(uid):player} used borg abilities on {ToPrettyString(target)} to set emergency access {(airlockComp.EmergencyAccess ? "on" : "off")}");
+            }
+    }
+
+    private void UninhabitShell(EntityUid user, EntityUid entity, AIShellComponent component)
+    {
+        var mindComp = _entityManager.GetComponent<MindContainerComponent>(user);
+        _mind.TransferTo(mindComp.Mind.GetValueOrDefault(), component.eyePrototype);
+        component.Controlled = false;
+        component.eyePrototype = EntityUid.Invalid;
+    }
+
+    public void BorgBoltDoor(EntityUid user, EntityUid entity, BorgChassisComponent component)
+    {
+
+    }
+
+    private void onComponentRemove(EntityUid uid, AIShellComponent comp, ComponentRemove ev)
+    {
+        //comp.
+        if (comp.eyePrototype != EntityUid.Invalid)
+        {
+            var mindComp = _entityManager.GetComponent<MindContainerComponent>(uid);
+            _mind.TransferTo(mindComp.Mind.GetValueOrDefault(), comp.eyePrototype);
+        }
+    }
+    
+    // End of Goobstation AI stuff
 
     private void OnMapInit(EntityUid uid, BorgChassisComponent component, MapInitEvent args)
     {
@@ -145,6 +348,14 @@ public sealed partial class BorgSystem : SharedBorgSystem
         {
             _mind.TransferTo(mindId, uid, mind: mind);
         }
+        // Goobstation - AI Interface Board
+        if (HasComp<AILinkComponent>(args.Entity))
+        {
+            if (!HasComp<AIShellComponent>(uid))
+            {
+                _entityManager.AddComponent<AIShellComponent>(uid);
+            }
+        }
     }
 
     protected override void OnRemoved(EntityUid uid, BorgChassisComponent component, EntRemovedFromContainerMessage args)
@@ -155,6 +366,13 @@ public sealed partial class BorgSystem : SharedBorgSystem
             _mind.TryGetMind(uid, out var mindId, out var mind))
         {
             _mind.TransferTo(mindId, args.Entity, mind: mind);
+        }
+        if (HasComp<AILinkComponent>(args.Entity))
+        {
+            if (HasComp<AIShellComponent>(uid))
+            {
+                _entityManager.RemoveComponent<AIShellComponent>(uid);
+            }
         }
     }
 

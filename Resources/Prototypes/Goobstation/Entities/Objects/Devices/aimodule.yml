@@ -202,6 +202,7 @@
   components:
   - type: AIModule
     lawset: Quarantine
+    limitOverride: true
 
 - type: entity
   parent: AIModuleBlank
@@ -212,6 +213,7 @@
   components:
   - type: AIModule
     lawset: Terminator
+    limitOverride: true
     
 - type: entity
   parent: AIModuleBlank
@@ -222,6 +224,7 @@
   components:
   - type: AIModule
     lawset: ERT
+    limitOverride: true
 
 - type: entity
   parent: AIModuleBlank
@@ -261,7 +264,7 @@
   components:
   - type: AIModule
     purgeLaws: true
-    sectorOverride: true
+    limitOverride: true
     
 - type: entity
   parent: AIModuleBlank
@@ -273,4 +276,4 @@
   - type: AIModule
     isFreeform: true
     lawSector: 1
-    sectorOverride: true
+    limitOverride: true

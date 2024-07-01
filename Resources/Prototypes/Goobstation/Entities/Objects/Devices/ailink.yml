@@ -1,0 +1,11 @@
+- type: entity
+  parent: BaseItem
+  id: AIInterface
+  name: AI Interface Board
+  description: A board that allows any borg to be controlled by an AI.
+  components:
+  - type: Sprite
+    sprite: Goobstation/Objects/Devices/aimodule.rsi
+    state: module
+  - type: BorgBrain
+  - type: AILink
