@@ -7,6 +7,7 @@ using Content.Server.NPC.Queries.Queries;
 using Content.Server.Nutrition.Components;
 using Content.Server.Nutrition.EntitySystems;
 using Content.Server.Storage.Components;
+using Content.Shared.Damage.Components;
 using Content.Shared.Examine;
 using Content.Shared.Fluids.Components;
 using Content.Shared.Hands.Components;
@@ -320,6 +321,20 @@ public sealed class NPCUtilitySystem : EntitySystem
 
                 return _examine.InRangeUnOccluded(owner, targetUid, radius + bufferRange, null) ? 1f : 0f;
             }
+            // Goobstation - AI Turret targetting, dont want it to keep trying to stun a stunned target
+            case TargetIsStunCon:
+            {
+                if (TryComp<StaminaComponent>(targetUid, out var stamina))
+                    {
+                        if (stamina.Critical)
+                        {
+                            return 0f;
+                        }
+                        return 1f;
+                    }
+                return 1f;
+            }
+            // Goobstation end
             case TargetIsAliveCon:
             {
                 return _mobState.IsAlive(targetUid) ? 1f : 0f;
