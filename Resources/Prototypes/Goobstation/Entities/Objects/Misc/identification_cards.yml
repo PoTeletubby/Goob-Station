@@ -34,3 +34,18 @@
   - type: IdCard
     jobTitle: Salvage Diver
     jobIcon: JobIconShaftMiner
+    
+- type: entity
+  parent: IDCardStandard
+  id: BitrunnerIDCard
+  name: bitrunner ID card
+  components:
+  - type: Sprite
+    sprite: Goobstation/Objects/Misc/id_cards.rsi
+    layers:
+    - state: idbitrunner
+  - type: IdCard
+    jobTitle: Bitrunner
+    jobIcon: JobIconBitrunner
+  - type: PresetIdCard
+    job: Bitrunner

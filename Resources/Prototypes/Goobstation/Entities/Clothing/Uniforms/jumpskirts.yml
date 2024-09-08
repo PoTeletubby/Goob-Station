@@ -19,3 +19,14 @@
     sprite: Goobstation/Clothing/Uniforms/Jumpskirt/nanotrasen_representative.rsi
   - type: Clothing
     sprite: Goobstation/Clothing/Uniforms/Jumpskirt/nanotrasen_representative.rsi
+    
+- type: entity
+  parent: ClothingUniformSkirtBase
+  id: ClothingUniformJumpskirtBitrunner
+  name: bitrunner jumpskirt
+  description: A skirt that defends against digital dangers.
+  components:
+  - type: Sprite
+    sprite: Goobstation/Clothing/Uniforms/Jumpskirt/bitrunner.rsi
+  - type: Clothing
+    sprite: Goobstation/Clothing/Uniforms/Jumpskirt/bitrunner.rsi

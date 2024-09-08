@@ -1,0 +1,1 @@
+job-description-bitrunner = Dive into a virtual domain and solve puzzles to bring back loot to the real world.

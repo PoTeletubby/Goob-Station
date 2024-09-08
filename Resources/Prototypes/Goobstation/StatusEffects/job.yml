@@ -21,3 +21,11 @@
     sprite: /Textures/Goobstation/Interface/Misc/job_icons.rsi
     state: blueshield
   jobName: Blueshield
+  
+- type: jobIcon
+  parent: JobIcon
+  id: JobIconBitrunner
+  icon:
+    sprite: /Textures/Goobstation/Interface/Misc/job_icons.rsi
+    state: bitrunner
+  jobName: Bitrunner

@@ -1,0 +1,39 @@
+
+# Jumpsuit
+- type: loadout
+  id: BitrunnerJumpsuit
+  equipment:
+    jumpsuit: ClothingUniformJumpsuitBitrunner
+
+- type: loadout
+  id: BitrunnerJumpskirt
+  equipment:
+    jumpsuit: ClothingUniformJumpskirtBitrunner
+
+# Back
+- type: loadout
+  id: BitrunnerBackpack
+  equipment:
+    back: ClothingBackpackCargo
+
+- type: loadout
+  id: BitrunnerSatchel
+  equipment:
+    back: ClothingBackpackSatchelCargo
+
+- type: loadout
+  id: BitrunnerDuffel
+  equipment:
+    back: ClothingBackpackDuffelCargo
+
+# OuterClothing
+- type: loadout
+  id: BitrunnerWintercoat
+  equipment:
+    outerClothing: ClothingOuterWinterCargo
+
+# Shoes
+- type: loadout
+  id: BitrunnerBoots
+  equipment:
+    shoes: ClothingShoesBootsWinterCargo

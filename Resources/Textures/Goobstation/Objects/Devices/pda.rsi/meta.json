@@ -13,6 +13,9 @@
 	{
       "name": "pda-heccd"
     },
+    {
+      "name": "pda-bitrunner"
+    },
 	{
       "name": "id_overlay"
     },

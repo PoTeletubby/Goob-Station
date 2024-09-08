@@ -10,3 +10,17 @@
   - Trinkets
   - GroupSpeciesBreathTool
   - Survival
+  
+- type: roleLoadout
+  id: JobBitrunner
+  groups:
+  - GroupTankHarness
+  - CargoTechnicianHead
+  - BitrunnerJumpsuit
+  - BitrunnerBackpack
+  - BitrunnerOuterClothing
+  - BitrunnerShoes
+  - Glasses
+  - Survival
+  - Trinkets
+  - GroupSpeciesBreathTool

@@ -38,3 +38,21 @@
   - type: Icon
     sprite: Goobstation/Objects/Devices/pda.rsi
     state: pda-heccd
+
+- type: entity
+  parent: BasePDA
+  id: BitrunnerPDA
+  name: bitrunner PDA
+  description: Does this have any games on it?
+  components:
+  - type: Sprite
+    sprite: Goobstation/Objects/Devices/pda.rsi
+  - type: Pda
+    id: BitrunnerIDCard
+    state: pda-bitrunner
+  - type: PdaBorderColor
+    borderColor: "#353526"
+    accentVColor: "#f6d356"
+  - type: Icon
+    sprite: Goobstation/Objects/Devices/pda.rsi
+    state: pda-bitrunner

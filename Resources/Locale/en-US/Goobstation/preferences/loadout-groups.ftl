@@ -3,3 +3,7 @@ loadout-group-ntr-backpack = Nanotrasen Representative backpack
 loadout-group-ntr-jumpsuit = Nanotrasen Representative jumpsuit
 loadout-group-ntr-belt = Nanotrasen Representative belt
 loadout-group-ntr-shoes = Nanotrasen Representative shoes
+loadout-group-bitrunner-jumpsuit = Bitrunner jumpsuit
+loadout-group-bitrunner-backpack = Bitrunner backpack
+loadout-group-bitrunner-outerclothing = Bitrunner outer clothing
+loadout-group-bitrunner-shoes = Bitrunner shoes

@@ -1,0 +1,23 @@
+- type: job
+  id: Bitrunner
+  name: job-name-bitrunner
+  description: job-description-bitrunner
+  playTimeTracker: JobBitrunner
+  startingGear: BitrunnerGear
+  icon: "JobIconBitrunner"
+  supervisors: job-supervisors-qm
+  access:
+  - Cargo
+  - Maintenance
+  - Bitrunner
+  extendedAccess:
+  - Salvage
+
+- type: startingGear
+  id: BitrunnerGear
+  equipment:
+    id: BitrunnerPDA
+    ears: ClothingHeadsetCargo
+  #storage:
+    #back:
+    #- Stuff

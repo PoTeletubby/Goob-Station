@@ -39,3 +39,34 @@
   - NanotrasenRepresentativeBoots
   - NanotrasenRepresentativeShoes
   - NanotrasenRepresentativeHeels
+
+  # Bitrunner
+
+- type: loadoutGroup
+  id: BitrunnerJumpsuit
+  name: loadout-group-bitrunner-jumpsuit
+  loadouts:
+  - BitrunnerJumpsuit
+  - BitrunnerJumpskirt
+
+- type: loadoutGroup
+  id: BitrunnerBackpack
+  name: loadout-group-bitrunner-backpack
+  loadouts:
+  - CargoTechnicianBackpack
+  - CargoTechnicianSatchel
+  - CargoTechnicianDuffel
+
+- type: loadoutGroup
+  id: BitrunnerOuterClothing
+  name: loadout-group-bitrunner-outerclothing
+  minLimit: 0
+  loadouts:
+  - CargoTechnicianWintercoat
+
+- type: loadoutGroup
+  id: BitrunnerShoes
+  name: loadout-group-bitrunner-shoes
+  loadouts:
+  - BlackShoes
+  - CargoWinterBoots

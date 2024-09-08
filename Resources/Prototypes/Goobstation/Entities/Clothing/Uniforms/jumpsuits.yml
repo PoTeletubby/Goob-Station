@@ -36,3 +36,14 @@
     sprite: Goobstation/Clothing/Uniforms/Jumpsuit/casualsyndicate.rsi
   - type: Clothing
     sprite: Goobstation/Clothing/Uniforms/Jumpsuit/casualsyndicate.rsi
+    
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitBitrunner
+  name: bitrunner jumpsuit
+  description: A suit that defends against digital dangers.
+  components:
+  - type: Sprite
+    sprite: Goobstation/Clothing/Uniforms/Jumpsuit/bitrunner.rsi
+  - type: Clothing
+    sprite: Goobstation/Clothing/Uniforms/Jumpsuit/bitrunner.rsi
