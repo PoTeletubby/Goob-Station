@@ -15,3 +15,12 @@
   - type: ContainerFill
     containers:
       board: [ DoorElectronicsCommand ]
+
+- type: entity
+  parent: AirlockCargo
+  id: AirlockBitrunnerLocked
+  suffix: Bitrunner, Locked
+  components:
+  - type: ContainerFill
+    containers:
+      board: [ DoorElectronicsBitrunner ]
